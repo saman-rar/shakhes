@@ -1,18 +1,67 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
-import { useColorScheme } from 'react-native';
+import 'react-native-reanimated';
+import { Blubank } from '@/theme/blubank';
+import { Stack } from 'expo-router/stack';
+import { StatusBar } from 'expo-status-bar';
+import { useEffect } from 'react';
+import { I18nManager, Platform, StyleSheet, Text, View } from 'react-native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
-import { AnimatedSplashOverlay } from '@/components/animated-icon';
-import AppTabs from '@/components/app-tabs';
+export const unstable_settings = {
+  initialRouteName: '(tabs)',
+};
 
-SplashScreen.preventAutoHideAsync();
+export default function RootLayout() {
+  useEffect(() => {
+    if (Platform.OS !== 'web' && !I18nManager.isRTL) {
+      I18nManager.allowRTL(true);
+      I18nManager.forceRTL(true);
+    }
+  }, []);
 
-export default function TabLayout() {
-  const colorScheme = useColorScheme();
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <AnimatedSplashOverlay />
-      <AppTabs />
-    </ThemeProvider>
+    // <GestureHandlerRootView style={styles.flex}>
+    //   <SafeAreaProvider>
+    <View style={styles.flex}>
+      {/* <StatusBar style='dark' />
+          <Stack
+            screenOptions={{
+              headerShown: false,
+              contentStyle: { backgroundColor: Blubank.colors.background },
+            }}
+          /> */}
+      <Text>;aksjdkjaskdl</Text>
+    </View>
+    // </SafeAreaProvider>
+    // </GestureHandlerRootView>
   );
 }
+
+// export default function RootLayout() {
+//   useEffect(() => {
+//     if (Platform.OS !== 'web' && !I18nManager.isRTL) {
+//       I18nManager.allowRTL(true);
+//       I18nManager.forceRTL(true);
+//     }
+//   }, []);
+
+//   return (
+//     <GestureHandlerRootView style={styles.flex}>
+//       <SafeAreaProvider>
+//         <View style={styles.flex}>
+//           <StatusBar style='dark' />
+//           <Stack
+//             screenOptions={{
+//               headerShown: false,
+//               contentStyle: { backgroundColor: Blubank.colors.background },
+//             }}
+//           />
+//         </View>
+//       </SafeAreaProvider>
+//     </GestureHandlerRootView>
+//   );
+// }
+
+const styles = StyleSheet.create({
+  flex: { flex: 1, backgroundColor: Blubank.colors.background },
+});
