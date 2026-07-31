@@ -1,100 +1,260 @@
 import { BlubankCard } from '@/components/BlubankCard';
+import { BlubankSelect } from '@/components/BlubankSelect';
+import { FormDateField } from '@/components/FormDateField';
 import { SectionHeader } from '@/components/SectionHeader';
 import { StatTile } from '@/components/StatTile';
-import { currentJalaliMonthName, toFa } from '@/lib/jalali';
-import { Blubank } from '@/theme/blubank';
+import { useEmployees } from '@/context/EmployeesContext';
+import { toFa } from '@/lib/jalali';
+import { dashboardSchema, DashboardForm } from '@/schemas';
+import { typography, useBlubank } from '@/theme/blubank';
 import { Feather } from '@expo/vector-icons';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function DashboardScreen() {
-  const stats = {
-    referrals: 24,
-    closed: 18,
-    evaluated: 20,
-    coverage: 83,
-    qualityAvg: 88,
-    knowledgeAvg: 91,
-    agilityAvg: 84,
-    innovationAvg: 76,
-    monthlyScore: 132,
-    performance: 85,
-    rank: 'رتبه دوم',
-  };
+  const { employeeOptions, getEmployeeName } = useEmployees();
+  const b = useBlubank();
+  const c = b.colors;
+
+  const { control, handleSubmit, reset } = useForm<DashboardForm>({
+    resolver: zodResolver(dashboardSchema),
+    defaultValues: {
+      employee: '',
+      date: '',
+    },
+  });
 
   return (
-    <SafeAreaView style={styles.safe} edges={['top']}>
+    <SafeAreaView
+      style={[styles.safe, { backgroundColor: c.background }]}
+      edges={['top']}
+    >
       <ScrollView
-        contentContainerStyle={styles.scroll}
+        contentContainerStyle={[
+          styles.scroll,
+          {
+            paddingHorizontal: b.spacing.lg,
+            paddingBottom: 100,
+          },
+        ]}
         showsVerticalScrollIndicator={false}
       >
-        <View style={styles.header}>
-          <View>
-            <Text style={styles.greeting}>مهدی اسدی عزیز، خوش آمدید</Text>
-            <Text style={styles.date}>
-              {currentJalaliMonthName()} {toFa(1405)}
-            </Text>
-          </View>
-          <View style={styles.avatar}>
-            <Feather name='user' size={22} color={Blubank.colors.primary} />
-          </View>
+        <View
+          style={[
+            styles.header,
+            { marginBottom: b.spacing.md, paddingTop: 20 },
+          ]}
+        >
+          <BlubankSelect
+            control={control}
+            name='employee'
+            label='کارمند'
+            options={employeeOptions}
+          />
+          <FormDateField control={control} name='date' label='تاریخ' />
         </View>
 
-        <Pressable style={styles.updateBtn} onPress={() => {}}>
-          <Feather name='refresh-cw' size={18} color='#FFFFFF' />
-          <Text style={styles.updateText}>به‌روزرسانی داشبورد</Text>
+        <Pressable
+          style={[styles.updateBtn, { backgroundColor: c.primary }]}
+          onPress={() => {}}
+        >
+          <Feather name='refresh-cw' size={18} color='#FFF' />
+          <Text
+            style={{
+              color: '#FFF',
+              fontFamily: typography.bold,
+              fontSize: 16,
+            }}
+          >
+            به‌روزرسانی داشبورد
+          </Text>
         </Pressable>
 
-        <SectionHeader title='وضعیت کلی' />
-        <BlubankCard style={styles.grid}>
-          <StatTile label='ارجاع شده' value={stats.referrals} icon='send' />
-          <StatTile label='مختومه' value={stats.closed} icon='check-circle' />
-          <StatTile label='ارزیابی شده' value={stats.evaluated} icon='award' />
+        <SectionHeader title='شاخص‌های کلی' />
+        <BlubankCard style={styles.container}>
+          <StatTile
+            style={styles.item}
+            icon='send'
+            label='ارجاع شده'
+            value={toFa(14)}
+            tone='primary'
+          />
+          <StatTile
+            style={styles.item}
+            icon='check-circle'
+            label='مختومه'
+            value={toFa(9)}
+            tone='primary'
+          />
+          <StatTile
+            style={styles.item}
+            icon='clipboard'
+            label='ارزیابی شده'
+            value={toFa(11)}
+            tone='primary'
+          />
+          <StatTile
+            style={styles.item}
+            icon='percent'
+            label='پوشش ارزیابی'
+            value='۷۹٪'
+          />
         </BlubankCard>
 
         <View style={styles.halfRow}>
-          <BlubankCard style={[styles.halfCard, styles.coverage]}>
-            <Text style={styles.coverageValue}>{toFa(stats.coverage)}٪</Text>
-            <Text style={styles.coverageLabel}>پوشش ارزیابی</Text>
+          <View style={styles.halfCard}>
+            <BlubankCard style={styles.tilePadding}>
+              <View style={styles.centerCol}>
+                <Text
+                  style={{
+                    color: c.textSecondary,
+                    fontFamily: typography.medium,
+                    fontSize: 13,
+                  }}
+                >
+                  میانگین کیفیت
+                </Text>
+                <Text
+                  style={[
+                    styles.big,
+                    { color: c.text, fontFamily: typography.bold },
+                  ]}
+                >
+                  {toFa(88)}
+                </Text>
+              </View>
+            </BlubankCard>
+          </View>
+          <View style={styles.halfCard}>
+            <BlubankCard style={styles.tilePadding}>
+              <View style={styles.centerCol}>
+                <Text
+                  style={{
+                    color: c.textSecondary,
+                    fontFamily: typography.medium,
+                    fontSize: 13,
+                  }}
+                >
+                  میانگین دانش
+                </Text>
+                <Text
+                  style={[
+                    styles.big,
+                    { color: c.text, fontFamily: typography.bold },
+                  ]}
+                >
+                  {toFa(91)}
+                </Text>
+              </View>
+            </BlubankCard>
+          </View>
+        </View>
+
+        <View style={styles.rowTwo}>
+          <BlubankCard style={styles.rowTwoCard}>
+            <View style={styles.centerCol}>
+              <Text
+                style={{
+                  color: c.textSecondary,
+                  fontFamily: typography.medium,
+                  fontSize: 13,
+                }}
+              >
+                میانگین چابکی
+              </Text>
+              <Text
+                style={[
+                  styles.big,
+                  { color: c.text, fontFamily: typography.bold },
+                ]}
+              >
+                {toFa(84)}
+              </Text>
+            </View>
           </BlubankCard>
-          <BlubankCard style={styles.halfCard}>
-            <Text style={styles.rankValue}>{stats.rank}</Text>
-            <Text style={styles.coverageLabel}>رتبه</Text>
+          <BlubankCard style={styles.rowTwoCard}>
+            <View style={styles.centerCol}>
+              <Text
+                style={{
+                  color: c.textSecondary,
+                  fontFamily: typography.medium,
+                  fontSize: 13,
+                }}
+              >
+                میانگین نوآوری
+              </Text>
+              <Text
+                style={[
+                  styles.big,
+                  { color: c.text, fontFamily: typography.bold },
+                ]}
+              >
+                {toFa(87)}
+              </Text>
+            </View>
           </BlubankCard>
         </View>
 
-        <SectionHeader title='میانگین شاخص‌ها' />
-        <BlubankCard style={styles.grid}>
-          <StatTile
-            label='میانگین کیفیت'
-            value={stats.qualityAvg}
-            icon='star'
-          />
-          <StatTile
-            label='میانگین دانش'
-            value={stats.knowledgeAvg}
-            icon='book-open'
-          />
-          <StatTile label='میانگین چابکی' value={stats.agilityAvg} icon='zap' />
-          <StatTile
-            label='میانگین نوآوری'
-            value={stats.innovationAvg}
-            icon='sliders'
-          />
-        </BlubankCard>
+        <View style={styles.thirdRow}>
+          <BlubankCard style={styles.thirdCard}>
+            <View style={styles.centerCol}>
+              <View style={[styles.badge, { backgroundColor: c.primarySoft }]}>
+                <Feather name='award' size={18} color={c.primary} />
+              </View>
+              <Text
+                style={{
+                  color: c.textSecondary,
+                  fontFamily: typography.medium,
+                  fontSize: 13,
+                  marginTop: 6,
+                }}
+              >
+                رتبه
+              </Text>
+              <Text
+                style={[
+                  styles.big,
+                  { color: c.primary, fontFamily: typography.bold },
+                ]}
+              >
+                دوم
+              </Text>
+            </View>
+          </BlubankCard>
 
-        <SectionHeader title='نتیجه' />
-        <View style={styles.halfRow}>
-          <StatTile
-            label={`امتیاز ماهانه (از ${toFa(155)})`}
-            value={stats.monthlyScore}
-            icon='bar-chart'
-          />
-          <StatTile
-            label='درصد عملکرد'
-            value={`${toFa(stats.performance)}٪`}
-            icon='trending-up'
-          />
+          <BlubankCard style={styles.thirdCard}>
+            <View style={styles.centerCol}>
+              <Text
+                style={{
+                  color: c.textSecondary,
+                  fontFamily: typography.medium,
+                  fontSize: 13,
+                }}
+              >
+                امتیاز ماهانه
+              </Text>
+              <Text
+                style={[
+                  styles.big,
+                  { color: c.text, fontFamily: typography.bold },
+                ]}
+              >
+                {toFa(132)} / {toFa(155)}
+              </Text>
+              <Text
+                style={{
+                  color: c.primary,
+                  fontFamily: typography.bold,
+                  fontSize: 26,
+                  marginTop: 4,
+                }}
+              >
+                {toFa(85)}٪
+              </Text>
+            </View>
+          </BlubankCard>
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -102,64 +262,53 @@ export default function DashboardScreen() {
 }
 
 const styles = StyleSheet.create({
-  safe: { flex: 1, backgroundColor: Blubank.colors.background },
-  scroll: {
-    paddingHorizontal: Blubank.spacing.lg,
-    paddingBottom: 110,
-  },
+  safe: { flex: 1 },
+  scroll: {},
   header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: 'row-reverse',
     alignItems: 'center',
-    marginTop: Blubank.spacing.sm,
-    marginBottom: Blubank.spacing.xl,
+    gap: 10,
   },
-  greeting: { fontSize: 18, fontWeight: '700', color: Blubank.colors.text },
-  date: { fontSize: 13, color: Blubank.colors.textSecondary, marginTop: 4 },
+  greeting: { fontSize: 22 },
   avatar: {
     width: 44,
     height: 44,
-    borderRadius: Blubank.radius.pill,
-    backgroundColor: Blubank.colors.card,
+    borderRadius: 22,
     alignItems: 'center',
     justifyContent: 'center',
   },
   updateBtn: {
-    flexDirection: 'row',
+    flexDirection: 'row-reverse',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: Blubank.spacing.sm,
-    backgroundColor: Blubank.colors.primary,
-    borderRadius: Blubank.radius.card,
-    paddingVertical: 15,
+    gap: 8,
+    paddingVertical: 14,
+    borderRadius: 14,
+    marginTop: 12,
   },
-  updateText: { color: '#FFFFFF', fontSize: 15, fontWeight: '700' },
-  grid: {
+  container: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    gap: Blubank.spacing.md,
-    padding: Blubank.spacing.md,
+    gap: 10,
   },
-  halfRow: {
-    flexDirection: 'row',
-    gap: Blubank.spacing.md,
+  item: {
+    width: '48%',
+    padding: 8,
   },
-  halfCard: {
-    flex: 1,
+  halfRow: { flexDirection: 'row', gap: 12, marginTop: 12 },
+  halfCard: { flex: 1 },
+  tilePadding: { paddingTop: 20 },
+  rowTwo: { flexDirection: 'row', gap: 12, marginTop: 12 },
+  rowTwoCard: { flex: 1, alignItems: 'center' },
+  thirdRow: { flexDirection: 'row', gap: 12, marginTop: 12 },
+  thirdCard: { flex: 1, alignItems: 'center' },
+  centerCol: { alignItems: 'center', justifyContent: 'center' },
+  big: { fontSize: 22, marginTop: 4 },
+  badge: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingVertical: Blubank.spacing.xl,
   },
-  coverage: { borderLeftWidth: 4, borderLeftColor: Blubank.colors.primary },
-  coverageValue: {
-    fontSize: 26,
-    fontWeight: '800',
-    color: Blubank.colors.primary,
-  },
-  coverageLabel: {
-    fontSize: 12,
-    color: Blubank.colors.textSecondary,
-    marginTop: 4,
-  },
-  rankValue: { fontSize: 20, fontWeight: '800', color: Blubank.colors.text },
 });

@@ -1,4 +1,4 @@
-import { Blubank } from '@/theme/blubank';
+import { typography, useBlubank } from '@/theme/blubank';
 import {
   StyleSheet,
   Text,
@@ -13,44 +13,64 @@ interface Props extends TextInputProps {
 }
 
 export function BlubankBoxInput({ label, error, style, ...rest }: Props) {
+  const b = useBlubank();
   return (
-    <View style={styles.wrap}>
-      {label ? <Text style={styles.label}>{label}</Text> : null}
+    <View style={{ marginBottom: b.spacing.md }}>
+      {label ? (
+        <Text
+          style={[
+            styles.label,
+            { color: b.colors.textSecondary, marginBottom: b.spacing.xs },
+          ]}
+        >
+          {label}
+        </Text>
+      ) : null}
       <TextInput
-        placeholderTextColor={Blubank.colors.textMuted}
-        style={[styles.input, style]}
+        placeholderTextColor={b.colors.textMuted}
+        style={[
+          styles.input,
+          {
+            backgroundColor: b.colors.inputBackground,
+            borderRadius: b.radius.input,
+            paddingHorizontal: b.spacing.md,
+            color: b.colors.text,
+            fontFamily: typography.regular,
+          },
+          style,
+        ]}
         {...rest}
       />
-      {error ? <Text style={styles.error}>{error}</Text> : null}
+      {error ? (
+        <Text
+          style={[
+            styles.error,
+            { color: b.colors.danger, marginTop: b.spacing.xs },
+          ]}
+        >
+          {error}
+        </Text>
+      ) : null}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  wrap: {
-    marginBottom: Blubank.spacing.md,
-  },
   label: {
     fontSize: 13,
-    color: Blubank.colors.textSecondary,
-    marginBottom: Blubank.spacing.xs,
     textAlign: 'right',
+    fontFamily: typography.medium,
   },
   input: {
-    backgroundColor: Blubank.colors.inputBackground,
-    borderRadius: Blubank.radius.input,
-    paddingHorizontal: Blubank.spacing.md,
     paddingVertical: 12,
     fontSize: 15,
-    color: Blubank.colors.text,
     textAlign: 'right',
     borderWidth: 1,
     borderColor: 'transparent',
   },
   error: {
-    color: Blubank.colors.danger,
     fontSize: 11,
-    marginTop: Blubank.spacing.xs,
     textAlign: 'right',
+    fontFamily: typography.regular,
   },
 });

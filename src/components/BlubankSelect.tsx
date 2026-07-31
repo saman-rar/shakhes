@@ -1,4 +1,4 @@
-import { Blubank } from '@/theme/blubank';
+import { typography, useBlubank } from '@/theme/blubank';
 import { Feather } from '@expo/vector-icons';
 import { useState } from 'react';
 import { Control, Controller, FieldValues, Path } from 'react-hook-form';
@@ -18,7 +18,7 @@ interface Option {
 }
 
 interface Props<T extends FieldValues> {
-  control: Control<T>;
+  control?: Control<T>;
   name: Path<T>;
   label: string;
   options: Option[];
@@ -30,7 +30,20 @@ export function BlubankSelect<T extends FieldValues>({
   label,
   options,
 }: Props<T>) {
+  const b = useBlubank();
   const [open, setOpen] = useState(false);
+
+  const theme = {
+    inputBg: b.colors.inputBackground,
+    border: b.colors.border,
+    text: b.colors.text,
+    textSecondary: b.colors.textSecondary,
+    textMuted: b.colors.textMuted,
+    primary: b.colors.primary,
+    danger: b.colors.danger,
+    overlay: b.colors.overlay,
+  };
+
   return (
     <Controller
       control={control}
@@ -38,22 +51,56 @@ export function BlubankSelect<T extends FieldValues>({
       render={({ field: { onChange, value }, fieldState: { error } }) => {
         const selected = options.find((o) => o.value === value);
         return (
-          <View style={styles.wrap}>
-            {label ? <Text style={styles.label}>{label}</Text> : null}
+          <View style={{ marginBottom: b.spacing.md, flex: 1 }}>
+            {label ? (
+              <Text
+                style={[
+                  styles.label,
+                  {
+                    color: theme.textSecondary,
+                    marginBottom: b.spacing.xs,
+                  },
+                ]}
+              >
+                {label}
+              </Text>
+            ) : null}
             <Pressable
-              style={[styles.box, error && styles.boxError]}
+              style={[
+                styles.box,
+                {
+                  backgroundColor: theme.inputBg,
+                  borderRadius: b.radius.input,
+                  paddingHorizontal: b.spacing.md,
+                  borderColor: error ? theme.danger : 'transparent',
+                },
+              ]}
               onPress={() => setOpen(true)}
             >
               <Feather
                 name='chevron-down'
                 size={16}
-                color={Blubank.colors.textSecondary}
+                color={theme.textSecondary}
               />
-              <Text style={[styles.value, !selected && styles.placeholder]}>
+              <Text
+                style={[
+                  styles.value,
+                  { color: selected ? theme.text : theme.textMuted },
+                ]}
+              >
                 {selected?.label ?? 'انتخاب کنید'}
               </Text>
             </Pressable>
-            {error ? <Text style={styles.error}>{error.message}</Text> : null}
+            {error ? (
+              <Text
+                style={[
+                  styles.error,
+                  { color: theme.danger, marginTop: b.spacing.xs },
+                ]}
+              >
+                {error.message}
+              </Text>
+            ) : null}
 
             <Modal
               visible={open}
@@ -61,14 +108,34 @@ export function BlubankSelect<T extends FieldValues>({
               animationType='slide'
               onRequestClose={() => setOpen(false)}
             >
-              <Pressable style={styles.overlay} onPress={() => setOpen(false)}>
-                <View style={styles.sheet}>
+              <Pressable
+                style={[styles.overlay, { backgroundColor: theme.overlay }]}
+                onPress={() => setOpen(false)}
+              >
+                <View style={{ paddingBottom: b.spacing.xl }}>
                   <BlubankCard padded={false} style={styles.sheetCard}>
-                    <Text style={styles.sheetTitle}>{label}</Text>
+                    <Text
+                      style={[
+                        styles.sheetTitle,
+                        {
+                          color: theme.text,
+                          marginBottom: b.spacing.md,
+                        },
+                      ]}
+                    >
+                      {label}
+                    </Text>
                     {options.map((opt) => (
                       <TouchableOpacity
                         key={opt.value}
-                        style={styles.optionRow}
+                        style={[
+                          styles.optionRow,
+                          {
+                            flexDirection: 'row-reverse',
+                            paddingVertical: b.spacing.md,
+                            borderBottomColor: theme.inputBg,
+                          },
+                        ]}
                         onPress={() => {
                           onChange(opt.value);
                           setOpen(false);
@@ -78,13 +145,22 @@ export function BlubankSelect<T extends FieldValues>({
                           <Feather
                             name='check'
                             size={18}
-                            color={Blubank.colors.primary}
+                            color={theme.primary}
                           />
                         )}
                         <Text
                           style={[
                             styles.optionText,
-                            value === opt.value && styles.optionTextActive,
+                            {
+                              color:
+                                value === opt.value
+                                  ? theme.primary
+                                  : theme.text,
+                              fontFamily:
+                                value === opt.value
+                                  ? typography.bold
+                                  : typography.regular,
+                            },
                           ]}
                         >
                           {opt.label}
@@ -103,61 +179,36 @@ export function BlubankSelect<T extends FieldValues>({
 }
 
 const styles = StyleSheet.create({
-  wrap: { marginBottom: Blubank.spacing.md },
-  label: {
-    fontSize: 13,
-    color: Blubank.colors.textSecondary,
-    marginBottom: Blubank.spacing.xs,
-    textAlign: 'right',
-  },
+  label: { fontSize: 13, textAlign: 'right', fontFamily: typography.medium },
   box: {
     flexDirection: 'row-reverse',
-    justifyContent: 'space-between',
+    gap: 5,
     alignItems: 'center',
-    backgroundColor: Blubank.colors.inputBackground,
-    borderRadius: Blubank.radius.input,
-    paddingHorizontal: Blubank.spacing.md,
     paddingVertical: 13,
     borderWidth: 1,
-    borderColor: 'transparent',
   },
-  boxError: { borderColor: Blubank.colors.danger },
-  value: { fontSize: 15, color: Blubank.colors.text },
-  placeholder: { color: Blubank.colors.textMuted },
-  error: {
-    color: Blubank.colors.danger,
-    fontSize: 11,
-    marginTop: Blubank.spacing.xs,
-    textAlign: 'right',
-  },
+  value: { fontSize: 15, fontFamily: typography.regular },
+  error: { fontSize: 11, textAlign: 'right', fontFamily: typography.regular },
   overlay: {
     flex: 1,
-    backgroundColor: Blubank.colors.overlay,
     justifyContent: 'flex-end',
   },
-  sheet: { paddingBottom: Blubank.spacing.xl },
   sheetCard: {
-    borderTopLeftRadius: Blubank.radius.tab,
-    borderTopRightRadius: Blubank.radius.tab,
-    paddingTop: Blubank.spacing.xl,
-    paddingHorizontal: Blubank.spacing.lg,
-    paddingBottom: Blubank.spacing.xl,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    paddingTop: 24,
+    paddingHorizontal: 16,
+    paddingBottom: 24,
   },
   sheetTitle: {
     fontSize: 16,
-    fontWeight: '700',
-    color: Blubank.colors.text,
-    marginBottom: Blubank.spacing.md,
+    fontFamily: typography.bold,
     textAlign: 'right',
   },
   optionRow: {
-    flexDirection: 'row-reverse',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingVertical: Blubank.spacing.md,
     borderBottomWidth: 1,
-    borderBottomColor: Blubank.colors.inputBackground,
   },
-  optionText: { fontSize: 15, color: Blubank.colors.text },
-  optionTextActive: { color: Blubank.colors.primary, fontWeight: '700' },
+  optionText: { fontSize: 15 },
 });

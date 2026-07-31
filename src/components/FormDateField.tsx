@@ -1,4 +1,4 @@
-import { Blubank } from '@/theme/blubank';
+import { typography, useBlubank } from '@/theme/blubank';
 import { Feather } from '@expo/vector-icons';
 import { useState } from 'react';
 import { Control, Controller, FieldValues, Path } from 'react-hook-form';
@@ -16,24 +16,57 @@ export function FormDateField<T extends FieldValues>({
   name,
   label,
 }: Props<T>) {
+  const b = useBlubank();
   const [open, setOpen] = useState(false);
   return (
     <Controller
       control={control}
       name={name}
       render={({ field: { onChange, value }, fieldState: { error } }) => (
-        <View style={styles.wrap}>
-          {label ? <Text style={styles.label}>{label}</Text> : null}
+        <View style={{ marginBottom: b.spacing.md, flex: 1 }}>
+          {label ? (
+            <Text
+              style={[
+                styles.label,
+                { color: b.colors.textSecondary, marginBottom: b.spacing.xs },
+              ]}
+            >
+              {label}
+            </Text>
+          ) : null}
           <Pressable
-            style={[styles.box, error && styles.boxError]}
+            style={[
+              styles.box,
+              {
+                flexDirection: 'row-reverse',
+                backgroundColor: b.colors.inputBackground,
+                borderRadius: b.radius.input,
+                paddingHorizontal: b.spacing.md,
+                borderColor: error ? b.colors.danger : 'transparent',
+              },
+            ]}
             onPress={() => setOpen(true)}
           >
-            <Feather name='calendar' size={16} color={Blubank.colors.primary} />
-            <Text style={[styles.value, !value && styles.placeholder]}>
+            <Feather name='calendar' size={16} color={b.colors.primary} />
+            <Text
+              style={[
+                styles.value,
+                { color: value ? b.colors.text : b.colors.textMuted },
+              ]}
+            >
               {value || 'انتخاب تاریخ'}
             </Text>
           </Pressable>
-          {error ? <Text style={styles.error}>{error.message}</Text> : null}
+          {error ? (
+            <Text
+              style={[
+                styles.error,
+                { color: b.colors.danger, marginTop: b.spacing.xs },
+              ]}
+            >
+              {error.message}
+            </Text>
+          ) : null}
           <PersianDatePickerModal
             visible={open}
             value={value}
@@ -47,31 +80,21 @@ export function FormDateField<T extends FieldValues>({
 }
 
 const styles = StyleSheet.create({
-  wrap: { marginBottom: Blubank.spacing.md },
   label: {
     fontSize: 13,
-    color: Blubank.colors.textSecondary,
-    marginBottom: Blubank.spacing.xs,
     textAlign: 'right',
+    fontFamily: typography.medium,
   },
   box: {
-    flexDirection: 'row',
     alignItems: 'center',
-    gap: Blubank.spacing.sm,
-    backgroundColor: Blubank.colors.inputBackground,
-    borderRadius: Blubank.radius.input,
-    paddingHorizontal: Blubank.spacing.md,
-    paddingVertical: 13,
+    gap: 8,
+    paddingVertical: 12,
     borderWidth: 1,
-    borderColor: 'transparent',
   },
-  boxError: { borderColor: Blubank.colors.danger },
-  value: { fontSize: 15, color: Blubank.colors.text },
-  placeholder: { color: Blubank.colors.textMuted },
+  value: { fontSize: 15, fontFamily: typography.regular },
   error: {
-    color: Blubank.colors.danger,
     fontSize: 11,
-    marginTop: Blubank.spacing.xs,
     textAlign: 'right',
+    fontFamily: typography.regular,
   },
 });

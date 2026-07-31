@@ -1,6 +1,6 @@
-import { Blubank } from '@/theme/blubank';
+import { typography, useBlubank } from '@/theme/blubank';
 import { Control, Controller, FieldValues, Path } from 'react-hook-form';
-import { StyleSheet, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 import { BlubankBoxInput } from './BlubankBoxInput';
 
 interface Props<T extends FieldValues> {
@@ -16,6 +16,7 @@ export function ControlledScoreInput<T extends FieldValues>({
   label,
   maxLimit,
 }: Props<T>) {
+  const b = useBlubank();
   return (
     <Controller
       control={control}
@@ -31,36 +32,30 @@ export function ControlledScoreInput<T extends FieldValues>({
           onChange(num);
         };
         return (
-          <View style={styles.wrap}>
+          <View style={{ flex: 1, minWidth: '46%' }}>
             <BlubankBoxInput
               label={label}
               value={value === undefined || value === '' ? '' : String(value)}
               onChangeText={handleChange}
               keyboardType='number-pad'
               error={error?.message}
-              style={styles.input}
+              style={{ textAlign: 'center' }}
             />
-            <Text style={styles.hint}>حداکثر {maxLimit}</Text>
+            <Text
+              style={{
+                fontSize: 10,
+                color: b.colors.textMuted,
+                textAlign: 'center',
+                marginTop: -b.spacing.xs,
+                marginBottom: b.spacing.sm,
+                fontFamily: typography.regular,
+              }}
+            >
+              حداکثر {maxLimit}
+            </Text>
           </View>
         );
       }}
     />
   );
 }
-
-const styles = StyleSheet.create({
-  wrap: {
-    flex: 1,
-    minWidth: '46%',
-  },
-  input: {
-    textAlign: 'center',
-  },
-  hint: {
-    fontSize: 10,
-    color: Blubank.colors.textMuted,
-    textAlign: 'center',
-    marginTop: -Blubank.spacing.xs,
-    marginBottom: Blubank.spacing.sm,
-  },
-});

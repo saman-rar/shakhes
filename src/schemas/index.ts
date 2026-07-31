@@ -52,3 +52,9 @@ export const monthlySchema = z.object({
   innovation: z.number().min(0).max(100, 'حداکثر ۱۰۰'),
 });
 export type MonthlyForm = z.infer<typeof monthlySchema>;
+
+export const dashboardSchema = z.object({
+  employee: z.string().min(1, 'کارمند الزامی است'),
+  date: z.string().min(1, 'تاریخ الزامی است'),
+});
+export type DashboardForm = z.infer<typeof dashboardSchema>;

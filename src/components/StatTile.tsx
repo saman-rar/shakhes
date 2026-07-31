@@ -1,61 +1,85 @@
-import { toFa } from '@/lib/jalali';
-import { Blubank } from '@/theme/blubank';
+import { typography, useBlubank } from '@/theme/blubank';
 import { Feather } from '@expo/vector-icons';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native';
 
 interface Props {
   label: string;
-  value: string | number;
-  unit?: string;
+  value: string;
   icon?: keyof typeof Feather.glyphMap;
-  fullWidth?: boolean;
+  tone?: 'neutral' | 'primary';
+  style?: StyleProp<ViewStyle>;
 }
 
-export function StatTile({ label, value, unit, icon, fullWidth }: Props) {
-  const display = typeof value === 'number' ? toFa(value) : value;
+export function StatTile({
+  label,
+  value,
+  icon,
+  tone = 'neutral',
+  style,
+}: Props) {
+  const b = useBlubank();
+  const primary = tone === 'primary';
   return (
-    <View style={[styles.tile, fullWidth && styles.full]}>
+    <View
+      style={[
+        styles.tile,
+        { backgroundColor: b.colors.inputBackground },
+        style,
+      ]}
+    >
       {icon ? (
-        <View style={styles.iconWrap}>
-          <Feather name={icon} size={18} color={Blubank.colors.primary} />
+        <View
+          style={[
+            styles.icon,
+            {
+              backgroundColor: primary ? b.colors.primarySoft : b.colors.card,
+            },
+          ]}
+        >
+          <Feather
+            name={icon}
+            size={16}
+            color={primary ? b.colors.primary : b.colors.textSecondary}
+          />
         </View>
       ) : null}
-      <Text style={styles.value}>
-        {display}
-        {unit ? <Text style={styles.unit}> {unit}</Text> : null}
+      <Text
+        style={{
+          color: b.colors.textSecondary,
+          fontFamily: typography.medium,
+          fontSize: 12,
+        }}
+      >
+        {label}
       </Text>
-      <Text style={styles.label}>{label}</Text>
+      <Text
+        style={{
+          color: b.colors.text,
+          fontFamily: typography.bold,
+          fontSize: 16,
+          marginTop: 2,
+        }}
+      >
+        {value}
+      </Text>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   tile: {
-    backgroundColor: Blubank.colors.inputBackground,
-    borderRadius: Blubank.radius.card,
-    padding: Blubank.spacing.md,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    paddingHorizontal: 10,
+    paddingVertical: 10,
+    borderRadius: 12,
+  },
+  icon: {
+    width: 28,
+    height: 28,
+    borderRadius: 14,
     alignItems: 'center',
     justifyContent: 'center',
-    gap: 4,
-    flex: 1,
-    minWidth: '30%',
-    minHeight: 92,
-  },
-  full: { minWidth: '100%' },
-  iconWrap: {
-    width: 34,
-    height: 34,
-    borderRadius: Blubank.radius.pill,
-    backgroundColor: Blubank.colors.primarySoft,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: 2,
-  },
-  value: { fontSize: 18, fontWeight: '700', color: Blubank.colors.text },
-  unit: { fontSize: 11, fontWeight: '400', color: Blubank.colors.textMuted },
-  label: {
-    fontSize: 11,
-    color: Blubank.colors.textSecondary,
-    textAlign: 'center',
   },
 });

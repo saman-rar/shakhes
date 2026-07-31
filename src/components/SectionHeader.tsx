@@ -1,32 +1,39 @@
-import { Blubank } from '@/theme/blubank';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { typography, useBlubank } from '@/theme/blubank';
+import { StyleProp, StyleSheet, Text, TextStyle } from 'react-native';
 
-interface Props {
+export function SectionHeader({
+  title,
+  style,
+  variant = 'primary',
+}: {
   title: string;
-  action?: React.ReactNode;
-}
-
-export function SectionHeader({ title, action }: Props) {
+  style?: StyleProp<TextStyle>;
+  variant?: string;
+}) {
+  const b = useBlubank();
   return (
-    <View style={styles.row}>
-      <Text style={styles.title}>{title}</Text>
-      {action}
-    </View>
+    <Text
+      style={[
+        styles.title,
+        {
+          color:
+            variant === 'primary' ? b.colors.textSecondary : b.colors.primary,
+          marginTop: b.spacing.lg,
+          marginBottom: b.spacing.sm,
+          marginHorizontal: b.spacing.lg,
+        },
+        style,
+      ]}
+    >
+      {title}
+    </Text>
   );
 }
 
 const styles = StyleSheet.create({
-  row: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    marginBottom: Blubank.spacing.md,
-    marginTop: Blubank.spacing.xl,
-  },
   title: {
-    fontSize: 16,
-    fontWeight: '700',
-    color: Blubank.colors.text,
+    fontSize: 13,
+    fontFamily: typography.bold,
+    textAlign: 'right',
   },
 });

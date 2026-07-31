@@ -9,7 +9,7 @@ import {
   toFa,
   todayJalali,
 } from '@/lib/jalali';
-import { Blubank } from '@/theme/blubank';
+import { typography, useBlubank } from '@/theme/blubank';
 import { Feather } from '@expo/vector-icons';
 import { useEffect, useMemo, useState } from 'react';
 import {
@@ -37,6 +37,7 @@ export function PersianDatePickerModal({
   onClose,
   onConfirm,
 }: Props) {
+  const b = useBlubank();
   const today = useMemo(() => todayJalali(), []);
   const initial = useMemo(() => parseJalali(value) ?? today, [value, today]);
 
@@ -95,57 +96,96 @@ export function PersianDatePickerModal({
       animationType='slide'
       onRequestClose={onClose}
     >
-      <Pressable style={styles.overlay} onPress={onClose}>
-        <Pressable style={styles.sheet} onPress={(e) => e.stopPropagation()}>
-          <View style={styles.handle} />
+      <Pressable
+        style={[styles.overlay, { backgroundColor: b.colors.overlay }]}
+        onPress={onClose}
+      >
+        <Pressable
+          style={[
+            styles.sheet,
+            {
+              backgroundColor: b.colors.card,
+              borderTopLeftRadius: b.radius.tab,
+              borderTopRightRadius: b.radius.tab,
+              paddingBottom: b.spacing.xl,
+              paddingHorizontal: b.spacing.lg,
+            },
+          ]}
+          onPress={(e) => e.stopPropagation()}
+        >
+          <View
+            style={[
+              styles.handle,
+              {
+                backgroundColor: b.colors.border,
+                marginVertical: b.spacing.sm,
+              },
+            ]}
+          />
 
-          <View style={styles.header}>
+          <View style={[styles.header, { marginBottom: b.spacing.md }]}>
             <TouchableOpacity
               onPress={() => shiftMonth(1)}
-              style={styles.navBtn}
+              style={{ padding: b.spacing.sm }}
             >
               <Feather
-                name='chevron-right'
+                name='chevron-left'
                 size={20}
-                color={Blubank.colors.textSecondary}
+                color={b.colors.textSecondary}
               />
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.monthTitleWrap}
               onPress={() => setShowYearPicker((v) => !v)}
             >
-              <Text style={styles.monthTitle}>
+              <Text
+                style={[
+                  styles.monthTitle,
+                  { color: b.colors.text, fontFamily: typography.bold },
+                ]}
+              >
                 {JALALI_MONTHS[viewMonth - 1]} {toFa(viewYear)}
               </Text>
               <Feather
                 name={showYearPicker ? 'chevron-up' : 'chevron-down'}
                 size={16}
-                color={Blubank.colors.primary}
+                color={b.colors.primary}
               />
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => shiftMonth(-1)}
-              style={styles.navBtn}
+              style={{ padding: b.spacing.sm }}
             >
               <Feather
-                name='chevron-left'
+                name='chevron-right'
                 size={20}
-                color={Blubank.colors.textSecondary}
+                color={b.colors.textSecondary}
               />
             </TouchableOpacity>
           </View>
 
           {showYearPicker ? (
             <ScrollView
-              style={styles.yearList}
-              contentContainerStyle={styles.yearListContent}
+              style={{ maxHeight: 280 }}
+              contentContainerStyle={[
+                styles.yearListContent,
+                { gap: b.spacing.sm, paddingVertical: b.spacing.sm },
+              ]}
             >
               {years.map((y) => (
                 <TouchableOpacity
                   key={y}
                   style={[
                     styles.yearItem,
-                    y === viewYear && styles.yearItemActive,
+                    {
+                      paddingHorizontal: b.spacing.lg,
+                      paddingVertical: b.spacing.sm,
+                      borderRadius: b.radius.pill,
+                      backgroundColor:
+                        y === viewYear
+                          ? b.colors.primary
+                          : b.colors.inputBackground,
+                    },
                   ]}
                   onPress={() => {
                     setViewYear(y);
@@ -155,7 +195,11 @@ export function PersianDatePickerModal({
                   <Text
                     style={[
                       styles.yearText,
-                      y === viewYear && styles.yearTextActive,
+                      {
+                        color: y === viewYear ? '#FFFFFF' : b.colors.text,
+                        fontFamily:
+                          y === viewYear ? typography.bold : typography.regular,
+                      },
                     ]}
                   >
                     {toFa(y)}
@@ -165,9 +209,12 @@ export function PersianDatePickerModal({
             </ScrollView>
           ) : (
             <>
-              <View style={styles.weekRow}>
+              <View style={[styles.weekRow, { marginBottom: b.spacing.xs }]}>
                 {JALALI_WEEKDAYS.map((w) => (
-                  <Text key={w} style={styles.weekCell}>
+                  <Text
+                    key={w}
+                    style={[styles.weekCell, { color: b.colors.textMuted }]}
+                  >
                     {w}
                   </Text>
                 ))}
@@ -181,8 +228,19 @@ export function PersianDatePickerModal({
                       key={d}
                       style={[
                         styles.cell,
-                        isToday(d) && styles.cellToday,
-                        isSelected(d) && styles.cellSelected,
+                        isToday(d) && !isSelected(d)
+                          ? {
+                              borderRadius: b.radius.pill,
+                              borderWidth: 1,
+                              borderColor: b.colors.primary,
+                            }
+                          : null,
+                        isSelected(d)
+                          ? {
+                              backgroundColor: b.colors.primary,
+                              borderRadius: b.radius.pill,
+                            }
+                          : null,
                       ]}
                       onPress={() =>
                         setSelected({ jy: viewYear, jm: viewMonth, jd: d })
@@ -191,8 +249,16 @@ export function PersianDatePickerModal({
                       <Text
                         style={[
                           styles.cellText,
-                          isSelected(d) && styles.cellTextSelected,
-                          isToday(d) && !isSelected(d) && styles.cellTextToday,
+                          {
+                            color: isSelected(d)
+                              ? '#FFFFFF'
+                              : isToday(d)
+                                ? b.colors.primary
+                                : b.colors.text,
+                            fontFamily: isSelected(d)
+                              ? typography.bold
+                              : typography.regular,
+                          },
                         ]}
                       >
                         {toFa(d)}
@@ -204,25 +270,58 @@ export function PersianDatePickerModal({
             </>
           )}
 
-          <View style={styles.footer}>
+          <View
+            style={[
+              styles.footer,
+              { gap: b.spacing.md, marginTop: b.spacing.lg },
+            ]}
+          >
             <TouchableOpacity
-              style={styles.todayBtn}
+              style={[
+                styles.todayBtn,
+                {
+                  borderRadius: b.radius.input,
+                  backgroundColor: b.colors.inputBackground,
+                },
+              ]}
               onPress={() => {
                 setSelected(today);
                 setViewYear(today.jy);
                 setViewMonth(today.jm);
               }}
             >
-              <Text style={styles.todayText}>امروز</Text>
+              <Text
+                style={{
+                  color: b.colors.text,
+                  fontSize: 15,
+                  fontFamily: typography.bold,
+                }}
+              >
+                امروز
+              </Text>
             </TouchableOpacity>
             <TouchableOpacity
-              style={styles.confirmBtn}
+              style={[
+                styles.confirmBtn,
+                {
+                  borderRadius: b.radius.input,
+                  backgroundColor: b.colors.primary,
+                },
+              ]}
               onPress={() => {
                 onConfirm(formatJalali(selected));
                 onClose();
               }}
             >
-              <Text style={styles.confirmText}>تأیید</Text>
+              <Text
+                style={{
+                  color: '#FFFFFF',
+                  fontSize: 15,
+                  fontFamily: typography.bold,
+                }}
+              >
+                تأیید
+              </Text>
             </TouchableOpacity>
           </View>
         </Pressable>
@@ -232,41 +331,27 @@ export function PersianDatePickerModal({
 }
 
 const styles = StyleSheet.create({
-  overlay: {
-    flex: 1,
-    backgroundColor: Blubank.colors.overlay,
-    justifyContent: 'flex-end',
-  },
-  sheet: {
-    backgroundColor: Blubank.colors.card,
-    borderTopLeftRadius: Blubank.radius.tab,
-    borderTopRightRadius: Blubank.radius.tab,
-    paddingBottom: Blubank.spacing.xl,
-    paddingHorizontal: Blubank.spacing.lg,
-  },
+  overlay: { flex: 1, justifyContent: 'flex-end' },
+  sheet: {},
   handle: {
     alignSelf: 'center',
     width: 40,
     height: 4,
     borderRadius: 2,
-    backgroundColor: Blubank.colors.border,
-    marginVertical: Blubank.spacing.sm,
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginBottom: Blubank.spacing.md,
   },
-  navBtn: { padding: Blubank.spacing.sm },
   monthTitleWrap: { flexDirection: 'row', alignItems: 'center', gap: 6 },
-  monthTitle: { fontSize: 17, fontWeight: '700', color: Blubank.colors.text },
-  weekRow: { flexDirection: 'row', marginBottom: Blubank.spacing.xs },
+  monthTitle: { fontSize: 17 },
+  weekRow: { flexDirection: 'row' },
   weekCell: {
     flex: 1,
     textAlign: 'center',
     fontSize: 11,
-    color: Blubank.colors.textMuted,
+    fontFamily: typography.medium,
   },
   grid: { flexDirection: 'row', flexWrap: 'wrap' },
   cell: {
@@ -275,56 +360,25 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  cellToday: {
-    borderRadius: Blubank.radius.pill,
-    borderWidth: 1,
-    borderColor: Blubank.colors.primary,
-  },
-  cellSelected: {
-    backgroundColor: Blubank.colors.primary,
-    borderRadius: Blubank.radius.pill,
-  },
-  cellText: { fontSize: 14, color: Blubank.colors.text },
-  cellTextSelected: { color: '#FFFFFF', fontWeight: '700' },
-  cellTextToday: { color: Blubank.colors.primary },
-  yearList: { maxHeight: 280 },
+  cellText: { fontSize: 14 },
   yearListContent: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    gap: Blubank.spacing.sm,
     justifyContent: 'center',
-    paddingVertical: Blubank.spacing.sm,
   },
-  yearItem: {
-    paddingHorizontal: Blubank.spacing.lg,
-    paddingVertical: Blubank.spacing.sm,
-    borderRadius: Blubank.radius.pill,
-    backgroundColor: Blubank.colors.inputBackground,
-  },
-  yearItemActive: { backgroundColor: Blubank.colors.primary },
-  yearText: { fontSize: 15, color: Blubank.colors.text },
-  yearTextActive: { color: '#FFFFFF', fontWeight: '700' },
-  footer: {
-    flexDirection: 'row',
-    gap: Blubank.spacing.md,
-    marginTop: Blubank.spacing.lg,
-  },
+  yearItem: {},
+  yearText: { fontSize: 15 },
+  footer: { flexDirection: 'row' },
   todayBtn: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingVertical: 13,
-    borderRadius: Blubank.radius.input,
-    backgroundColor: Blubank.colors.inputBackground,
+    paddingVertical: 12,
   },
-  todayText: { color: Blubank.colors.text, fontSize: 15, fontWeight: '600' },
   confirmBtn: {
     flex: 2,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingVertical: 13,
-    borderRadius: Blubank.radius.input,
-    backgroundColor: Blubank.colors.primary,
+    paddingVertical: 12,
   },
-  confirmText: { color: '#FFFFFF', fontSize: 15, fontWeight: '700' },
 });

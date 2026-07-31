@@ -1,5 +1,5 @@
-import { Blubank, softShadow } from '@/theme/blubank';
-import { StyleSheet, View, ViewProps } from 'react-native';
+import { useBlubank, useSoftShadow } from '@/theme/blubank';
+import { View, ViewProps } from 'react-native';
 
 interface Props extends ViewProps {
   padded?: boolean;
@@ -11,22 +11,22 @@ export function BlubankCard({
   padded = true,
   ...rest
 }: Props) {
+  const b = useBlubank();
+  const shadow = useSoftShadow();
   return (
     <View
-      style={[styles.card, softShadow, padded && styles.padded, style]}
+      style={[
+        {
+          backgroundColor: b.colors.card,
+          borderRadius: b.radius.card,
+        },
+        shadow,
+        padded && { padding: b.spacing.lg },
+        style,
+      ]}
       {...rest}
     >
       {children}
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  card: {
-    backgroundColor: Blubank.colors.card,
-    borderRadius: Blubank.radius.card,
-  },
-  padded: {
-    padding: Blubank.spacing.lg,
-  },
-});

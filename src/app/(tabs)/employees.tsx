@@ -1,13 +1,12 @@
+import { BlubankBoxInput } from '@/components/BlubankBoxInput';
 import { BlubankCard } from '@/components/BlubankCard';
-import { FormField } from '@/components/FormField';
+import { BlubankSelect } from '@/components/BlubankSelect';
 import { SectionHeader } from '@/components/SectionHeader';
-import { toFa } from '@/lib/jalali';
-import { EmployeeForm, employeeSchema } from '@/schemas';
-import { Blubank } from '@/theme/blubank';
+import { useEmployees } from '@/context/EmployeesContext';
+import { typography, useBlubank } from '@/theme/blubank';
 import { Feather } from '@expo/vector-icons';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import {
   Pressable,
   ScrollView,
@@ -17,109 +16,157 @@ import {
   View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { z } from 'zod';
 
-interface Employee {
-  id: string;
-  fullName: string;
-  personnelCode: string;
-  department: string;
-}
+const schema = z.object({
+  fullName: z.string().min(3, 'نام کامل الزامی است'),
+  personnelCode: z.string().min(2, 'کد پرسنلی الزامی است'),
+  department: z.string().min(1, 'واحد الزامی است'),
+});
+
+type FormValues = z.infer<typeof schema>;
 
 export default function EmployeesScreen() {
-  const [employees, setEmployees] = useState<Employee[]>([
-    {
-      id: '1',
-      fullName: 'مهدی اسدی',
-      personnelCode: toFa(102345),
-      department: 'معاونت امور مشتریان',
-    },
-    {
-      id: '2',
-      fullName: 'سارا محمدی',
-      personnelCode: toFa(103782),
-      department: 'واحد توسعه نرم‌افزار',
-    },
-  ]);
+  const b = useBlubank();
+  const c = b.colors;
+  const { employees, addEmployee, removeEmployee } = useEmployees();
 
-  const {
-    control,
-    handleSubmit,
-    reset,
-    formState: { isSubmitting },
-  } = useForm<EmployeeForm>({
-    resolver: zodResolver(employeeSchema),
+  const { control, handleSubmit, reset } = useForm<FormValues>({
     defaultValues: { fullName: '', personnelCode: '', department: '' },
+    resolver: zodResolver(schema),
+    mode: 'onBlur',
   });
 
-  const onSubmit = (data: EmployeeForm) => {
-    setEmployees((prev) => [{ id: String(Date.now()), ...data }, ...prev]);
+  const onSubmit = (values: FormValues) => {
+    addEmployee(values);
     reset();
   };
 
-  const remove = (id: string) =>
-    setEmployees((prev) => prev.filter((e) => e.id !== id));
-
   return (
-    <SafeAreaView style={styles.safe} edges={['top']}>
+    <SafeAreaView
+      style={[styles.safe, { backgroundColor: c.background }]}
+      edges={['top']}
+    >
       <ScrollView
-        contentContainerStyle={styles.scroll}
+        contentContainerStyle={[
+          styles.scroll,
+          { paddingHorizontal: b.spacing.lg, paddingBottom: 100 },
+        ]}
         showsVerticalScrollIndicator={false}
       >
         <SectionHeader title='ثبت کارمند' />
         <BlubankCard>
-          <FormField
+          <Controller
             control={control}
             name='fullName'
-            label='نام و نام خانوادگی'
+            render={({ field, fieldState }) => (
+              <BlubankBoxInput
+                label='نام و نام خانوادگی'
+                value={field.value}
+                onChangeText={field.onChange}
+                error={fieldState.error?.message}
+              />
+            )}
           />
-          <FormField
+          <Controller
             control={control}
             name='personnelCode'
-            label='کد پرسنلی'
-            keyboardType='number-pad'
+            render={({ field, fieldState }) => (
+              <BlubankBoxInput
+                label='کد پرسنلی'
+                value={field.value}
+                onChangeText={field.onChange}
+                keyboardType='number-pad'
+                error={fieldState.error?.message}
+              />
+            )}
           />
-          <FormField
+          <BlubankSelect
             control={control}
             name='department'
-            label='واحد / معاونت'
+            label='واحد'
+            options={[
+              { label: 'مدیریت', value: 'مدیریت' },
+              { label: 'عملیات', value: 'عملیات' },
+              { label: 'پشتیبانی', value: 'پشتیبانی' },
+            ]}
           />
           <Pressable
-            style={[styles.primaryBtn, isSubmitting && styles.disabled]}
+            style={[
+              styles.primaryBtn,
+              {
+                backgroundColor: c.primary,
+                borderRadius: b.radius.input,
+              },
+            ]}
             onPress={handleSubmit(onSubmit)}
-            disabled={isSubmitting}
           >
-            <Feather name='user-plus' size={18} color='#FFFFFF' />
-            <Text style={styles.primaryBtnText}>ثبت کارمند</Text>
+            <Feather name='user-plus' size={18} color='#FFF' />
+            <Text style={styles.primaryText}>ثبت کارمند</Text>
           </Pressable>
         </BlubankCard>
 
-        <SectionHeader title={`کارمندان ثبت‌شده (${toFa(employees.length)})`} />
-        <View style={styles.list}>
-          {employees.map((emp) => (
-            <BlubankCard key={emp.id} style={styles.empCard}>
-              <View style={styles.empAvatar}>
-                <Feather name='user' size={18} color={Blubank.colors.primary} />
-              </View>
-              <View style={styles.empInfo}>
-                <Text style={styles.empName}>{emp.fullName}</Text>
-                <Text style={styles.empMeta}>
-                  {emp.personnelCode} · {emp.department}
-                </Text>
-              </View>
-              <TouchableOpacity
-                style={styles.deleteBtn}
-                onPress={() => remove(emp.id)}
-                hitSlop={8}
-              >
-                <Feather
-                  name='trash-2'
-                  size={16}
-                  color={Blubank.colors.danger}
-                />
-                <Text style={styles.deleteText}>حذف</Text>
-              </TouchableOpacity>
-            </BlubankCard>
-          ))}
+        <SectionHeader title='کارکنان ثبت‌شده' />
+        <View style={{ gap: b.spacing.sm, marginBottom: 24 }}>
+          {employees && employees.length > 0 ? (
+            employees.map((emp) => (
+              <BlubankCard key={emp.id} padded={false}>
+                <View
+                  style={[
+                    styles.row,
+                    {
+                      paddingHorizontal: b.spacing.md,
+                      paddingVertical: b.spacing.md,
+                    },
+                  ]}
+                >
+                  <View
+                    style={[
+                      styles.avatar,
+                      { backgroundColor: c.inputBackground },
+                    ]}
+                  >
+                    <Feather name='user' size={18} color={c.textSecondary} />
+                  </View>
+                  <View style={{ flex: 1, alignItems: 'flex-end' }}>
+                    <Text
+                      style={[
+                        styles.name,
+                        { color: c.text, fontFamily: typography.bold },
+                      ]}
+                    >
+                      {emp.fullName}
+                    </Text>
+                    <Text
+                      style={[
+                        styles.meta,
+                        {
+                          color: c.textSecondary,
+                          fontFamily: typography.regular,
+                        },
+                      ]}
+                    >
+                      {emp.personnelCode} · {emp.department}
+                    </Text>
+                  </View>
+                  <TouchableOpacity
+                    onPress={() => removeEmployee(emp.id)}
+                    hitSlop={8}
+                  >
+                    <Feather name='trash-2' size={18} color={c.danger} />
+                  </TouchableOpacity>
+                </View>
+              </BlubankCard>
+            ))
+          ) : (
+            <View style={styles.noEmployee}>
+              <SectionHeader
+                variant='secondary'
+                style={styles.noEmployeeTitle}
+                title='ابتدا یک کارمند ثبت کنید.'
+              />
+            </View>
+          )}
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -127,44 +174,30 @@ export default function EmployeesScreen() {
 }
 
 const styles = StyleSheet.create({
-  safe: { flex: 1, backgroundColor: Blubank.colors.background },
-  scroll: { paddingHorizontal: Blubank.spacing.lg, paddingBottom: 110 },
+  safe: { flex: 1 },
+  scroll: {},
   primaryBtn: {
-    flexDirection: 'row',
+    flexDirection: 'row-reverse',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: Blubank.spacing.sm,
-    backgroundColor: Blubank.colors.primary,
-    borderRadius: Blubank.radius.input,
-    paddingVertical: 14,
-    marginTop: Blubank.spacing.sm,
+    gap: 8,
+    paddingVertical: 13,
   },
-  disabled: { opacity: 0.6 },
-  primaryBtnText: { color: '#FFFFFF', fontSize: 15, fontWeight: '700' },
-  list: { gap: Blubank.spacing.sm },
-  empCard: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingVertical: Blubank.spacing.md,
-  },
-  empAvatar: {
-    width: 40,
-    height: 40,
-    borderRadius: Blubank.radius.pill,
-    backgroundColor: Blubank.colors.primarySoft,
+  primaryText: { color: '#FFF', fontSize: 16, fontFamily: typography.bold },
+  row: { flexDirection: 'row-reverse', alignItems: 'center', gap: 12 },
+  avatar: {
+    width: 38,
+    height: 38,
+    borderRadius: 19,
     alignItems: 'center',
     justifyContent: 'center',
-    marginRight: Blubank.spacing.md,
   },
-  empInfo: { flex: 1 },
-  empName: { fontSize: 15, fontWeight: '700', color: Blubank.colors.text },
-  empMeta: { fontSize: 12, color: Blubank.colors.textSecondary, marginTop: 2 },
-  deleteBtn: {
-    flexDirection: 'row',
+  name: { fontSize: 15, textAlign: 'right' },
+  meta: { fontSize: 12, marginTop: 2, textAlign: 'right' },
+  noEmployee: {
     alignItems: 'center',
-    gap: 4,
-    paddingHorizontal: Blubank.spacing.sm,
-    paddingVertical: 6,
   },
-  deleteText: { fontSize: 12, color: Blubank.colors.danger, fontWeight: '600' },
+  noEmployeeTitle: {
+    fontSize: 18,
+  },
 });

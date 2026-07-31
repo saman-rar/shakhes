@@ -1,6 +1,12 @@
-import { Blubank, softShadow } from '@/theme/blubank';
+import { getSoftShadow, typography, useBlubank } from '@/theme/blubank';
 import { Feather } from '@expo/vector-icons';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  useColorScheme,
+  View,
+} from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const ICONS: Record<string, keyof typeof Feather.glyphMap> = {
@@ -23,13 +29,28 @@ const LABELS: Record<string, string> = {
 
 export function FloatingTabBar({ state, navigation }: any) {
   const insets = useSafeAreaInsets();
+  const b = useBlubank();
+  const scheme = useColorScheme() === 'dark' ? 'dark' : 'light';
+  const shadow = getSoftShadow(scheme);
+  const inactive = b.colors.textMuted;
 
   return (
     <View
       style={[styles.wrapper, { paddingBottom: Math.max(insets.bottom, 12) }]}
       pointerEvents='box-none'
     >
-      <View style={[styles.bar, softShadow]}>
+      <View
+        style={[
+          styles.bar,
+          shadow,
+          {
+            backgroundColor: b.colors.card,
+            borderTopLeftRadius: b.radius.tab,
+            borderTopRightRadius: b.radius.tab,
+            paddingHorizontal: b.spacing.sm,
+          },
+        ]}
+      >
         {state.routes.map((route: any, index: number) => {
           const focused = state.index === index;
           const icon = ICONS[route.name] ?? 'circle';
@@ -50,6 +71,7 @@ export function FloatingTabBar({ state, navigation }: any) {
             navigation.emit({ type: 'tabLongPress', target: route.key });
           };
 
+          const activeColor = focused ? b.colors.primary : inactive;
           return (
             <TouchableOpacity
               key={route.key}
@@ -60,16 +82,15 @@ export function FloatingTabBar({ state, navigation }: any) {
               style={styles.item}
               activeOpacity={0.75}
             >
-              <Feather
-                name={icon}
-                size={22}
-                color={
-                  focused ? Blubank.colors.primary : Blubank.colors.textMuted
-                }
-              />
+              <Feather name={icon} size={20} color={activeColor} />
               <Text
-                style={[styles.label, focused && styles.labelFocused]}
-                numberOfLines={1}
+                style={[
+                  styles.label,
+                  {
+                    color: activeColor,
+                    fontFamily: focused ? typography.bold : typography.medium,
+                  },
+                ]}
               >
                 {label}
               </Text>
@@ -84,32 +105,26 @@ export function FloatingTabBar({ state, navigation }: any) {
 const styles = StyleSheet.create({
   wrapper: {
     position: 'absolute',
-    bottom: 0,
     left: 0,
     right: 0,
-    backgroundColor: 'transparent',
+    bottom: 0,
   },
   bar: {
-    height: 65,
-    backgroundColor: Blubank.colors.card,
-    borderTopLeftRadius: Blubank.radius.tab,
-    borderTopRightRadius: Blubank.radius.tab,
-    flexDirection: 'row',
+    flexDirection: 'row-reverse',
     alignItems: 'center',
-    paddingHorizontal: Blubank.spacing.sm,
+    height: 65,
+    marginHorizontal: 12,
+    marginBottom: 8,
+    borderRadius: 20,
+    overflow: 'hidden',
   },
   item: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    gap: 3,
+    gap: 2,
   },
   label: {
     fontSize: 10,
-    color: Blubank.colors.textMuted,
-  },
-  labelFocused: {
-    color: Blubank.colors.primary,
-    fontWeight: '700',
   },
 });

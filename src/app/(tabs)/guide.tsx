@@ -1,7 +1,8 @@
 import { BlubankCard } from '@/components/BlubankCard';
 import { SectionHeader } from '@/components/SectionHeader';
-import { Blubank } from '@/theme/blubank';
+import { BlubankTheme, typography, useBlubank } from '@/theme/blubank';
 import { Feather } from '@expo/vector-icons';
+import { useMemo } from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -42,6 +43,9 @@ const FORMULAS = [
 ];
 
 export default function GuideScreen() {
+  const b = useBlubank();
+  const styles = useMemo(() => makeStyles(b), [b]);
+
   return (
     <SafeAreaView style={styles.safe} edges={['top']}>
       <ScrollView
@@ -56,7 +60,7 @@ export default function GuideScreen() {
                 <Feather
                   name={f.icon as any}
                   size={18}
-                  color={Blubank.colors.primary}
+                  color={b.colors.primary}
                 />
               </View>
               <View>
@@ -69,7 +73,7 @@ export default function GuideScreen() {
             </View>
             <Text style={styles.persian}>{f.persian}</Text>
             <View style={styles.fnRow}>
-              <Feather name='code' size={11} color={Blubank.colors.textMuted} />
+              <Feather name='code' size={11} color={b.colors.textMuted} />
               <Text style={styles.fn}>lib/scoring.ts → {f.fn}</Text>
             </View>
           </BlubankCard>
@@ -79,47 +83,53 @@ export default function GuideScreen() {
   );
 }
 
-const styles = StyleSheet.create({
-  safe: { flex: 1, backgroundColor: Blubank.colors.background },
-  scroll: { paddingHorizontal: Blubank.spacing.lg, paddingBottom: 110 },
-  card: { marginBottom: Blubank.spacing.md },
-  head: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: Blubank.spacing.md,
-    marginBottom: Blubank.spacing.md,
-  },
-  iconWrap: {
-    width: 40,
-    height: 40,
-    borderRadius: 12,
-    backgroundColor: Blubank.colors.primarySoft,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  title: { fontSize: 14, fontWeight: '700', color: Blubank.colors.text },
-  subtitle: { fontSize: 11, color: Blubank.colors.textSecondary, marginTop: 1 },
-  formulaBox: {
-    backgroundColor: Blubank.colors.inputBackground,
-    borderRadius: Blubank.radius.input,
-    padding: Blubank.spacing.md,
-    marginBottom: Blubank.spacing.sm,
-  },
-  formula: {
-    fontSize: 12,
-    color: Blubank.colors.text,
-    fontFamily: 'monospace',
-  },
-  persian: {
-    fontSize: 12,
-    color: Blubank.colors.textSecondary,
-    textAlign: 'right',
-    marginBottom: 6,
-  },
-  fnRow: { flexDirection: 'row', alignItems: 'center', gap: 4 },
-  fn: {
-    fontSize: 11,
-    color: Blubank.colors.textMuted,
-    fontFamily: 'monospace',
-  },
-});
+function makeStyles(b: BlubankTheme) {
+  const c = b.colors;
+  return StyleSheet.create({
+    safe: { flex: 1, backgroundColor: c.background },
+    scroll: { paddingHorizontal: b.spacing.lg, paddingBottom: 110 },
+    card: { marginBottom: b.spacing.md },
+    head: {
+      flexDirection: 'row-reverse',
+      alignItems: 'center',
+      gap: b.spacing.md,
+      marginBottom: b.spacing.md,
+    },
+    iconWrap: {
+      width: 40,
+      height: 40,
+      borderRadius: 12,
+      backgroundColor: c.primarySoft,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    title: {
+      fontSize: 14,
+      fontFamily: typography.bold,
+      color: c.text,
+      textAlign: 'right',
+    },
+    subtitle: {
+      fontSize: 11,
+      color: c.textSecondary,
+      marginTop: 1,
+      textAlign: 'right',
+    },
+    formulaBox: {
+      backgroundColor: c.inputBackground,
+      borderRadius: b.radius.input,
+      padding: b.spacing.md,
+      marginBottom: b.spacing.sm,
+    },
+    formula: { fontSize: 12, color: c.text, fontFamily: 'monospace' },
+    persian: {
+      fontSize: 12,
+      color: c.textSecondary,
+      textAlign: 'right',
+      marginBottom: 6,
+      fontFamily: typography.regular,
+    },
+    fnRow: { flexDirection: 'row', alignItems: 'center', gap: 4 },
+    fn: { fontSize: 11, color: c.textMuted, fontFamily: 'monospace' },
+  });
+}
