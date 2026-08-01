@@ -1,4 +1,4 @@
-import { typography, useBlubank } from '@/theme/blubank';
+import { typography, useTheme } from '@/theme/shakhes';
 import { Feather } from '@expo/vector-icons';
 import { useState } from 'react';
 import { Control, Controller, FieldValues, Path } from 'react-hook-form';
@@ -16,7 +16,7 @@ export function FormDateField<T extends FieldValues>({
   name,
   label,
 }: Props<T>) {
-  const b = useBlubank();
+  const b = useTheme();
   const [open, setOpen] = useState(false);
   return (
     <Controller

@@ -1,4 +1,4 @@
-import { typography, useBlubank } from '@/theme/blubank';
+import { typography, useTheme } from '@/theme/shakhes';
 import { Feather } from '@expo/vector-icons';
 import { StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native';
 
@@ -17,7 +17,7 @@ export function StatTile({
   tone = 'neutral',
   style,
 }: Props) {
-  const b = useBlubank();
+  const b = useTheme();
   const primary = tone === 'primary';
   return (
     <View

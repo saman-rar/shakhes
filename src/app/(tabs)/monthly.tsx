@@ -1,4 +1,4 @@
-import { BlubankCard } from '@/components/BlubankCard';
+import { Card } from '@/components/Card';
 import { ControlledScoreInput } from '@/components/ControlledScoreInput';
 import { SectionHeader } from '@/components/SectionHeader';
 import { useEmployees } from '@/context/EmployeesContext';
@@ -10,7 +10,7 @@ import { MonthlyEvaluation } from '@/db/types';
 import { JALALI_MONTHS, toFa } from '@/lib/jalali';
 import { MONTHLY_MAX, performancePercentage } from '@/lib/scoring';
 import { MonthlyForm, monthlySchema } from '@/schemas';
-import { BlubankTheme, typography, useBlubank } from '@/theme/blubank';
+import { ShakhesTheme, typography, useTheme } from '@/theme/shakhes';
 import { Feather } from '@expo/vector-icons';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useFocusEffect } from 'expo-router';
@@ -54,7 +54,7 @@ const SCALE_SUM = 155;
 const CURRENT_YEAR = 1405;
 
 export default function MonthlyScreen() {
-  const b = useBlubank();
+  const b = useTheme();
   const styles = useMemo(() => makeStyles(b), [b]);
 
   const { employees, getEmployeeName } = useEmployees();
@@ -150,7 +150,7 @@ export default function MonthlyScreen() {
         contentContainerStyle={styles.scroll}
         showsVerticalScrollIndicator={false}
       >
-        <BlubankCard style={styles.headerCard}>
+        <Card style={styles.headerCard}>
           <View style={styles.avatar}>
             <Feather name='user' size={22} color={b.colors.primary} />
           </View>
@@ -168,10 +168,10 @@ export default function MonthlyScreen() {
             <Text style={styles.periodMonth}>{monthLabel}</Text>
             <Text style={styles.periodYear}>{toFa(year)}</Text>
           </Pressable>
-        </BlubankCard>
+        </Card>
 
         <SectionHeader title='انتخاب کارمند' />
-        <BlubankCard>
+        <Card>
           <Pressable
             style={styles.picker}
             onPress={() => setPicker('employee')}
@@ -186,10 +186,10 @@ export default function MonthlyScreen() {
               color={b.colors.textSecondary}
             />
           </Pressable>
-        </BlubankCard>
+        </Card>
 
         <SectionHeader title='امتیازهای ماهانه' />
-        <BlubankCard>
+        <Card>
           <View style={styles.grid}>
             {FIELDS.map((f) => (
               <ControlledScoreInput
@@ -229,12 +229,12 @@ export default function MonthlyScreen() {
               <Text style={styles.primaryText}>ثبت ارزیابی ماهانه</Text>
             </Pressable>
           </View>
-        </BlubankCard>
+        </Card>
 
         {isShowResult && result && (
           <>
             <SectionHeader title='نتیجه محاسبه' />
-            <BlubankCard>
+            <Card>
               {FIELDS.map((f) => (
                 <View key={f.name} style={styles.resultRow}>
                   <Text style={styles.resultLabel}>{f.label}</Text>
@@ -263,7 +263,7 @@ export default function MonthlyScreen() {
                   <Text style={styles.savedText}>ارزیابی ثبت شد</Text>
                 </View>
               )}
-            </BlubankCard>
+            </Card>
           </>
         )}
 
@@ -275,7 +275,7 @@ export default function MonthlyScreen() {
                 <Text style={styles.empty}>هنوز ارزیابی ثبت نشده است</Text>
               )}
               {history.map((h) => (
-                <BlubankCard key={h.id} style={styles.historyCard}>
+                <Card key={h.id} style={styles.historyCard}>
                   <View style={styles.historyInfo}>
                     <Text style={styles.historyName}>
                       {getEmployeeName(h.employeeId)}
@@ -290,7 +290,7 @@ export default function MonthlyScreen() {
                       {toFa(h.percent.toFixed(0))}٪
                     </Text>
                   </View>
-                </BlubankCard>
+                </Card>
               ))}
             </View>
           </>
@@ -305,7 +305,7 @@ export default function MonthlyScreen() {
       >
         <Pressable style={styles.overlay} onPress={() => setPicker(null)}>
           <View style={styles.sheet}>
-            <BlubankCard padded={false} style={styles.sheetCard}>
+            <Card padded={false} style={styles.sheetCard}>
               <Text style={styles.sheetTitle}>
                 {picker === 'employee' ? 'انتخاب کارمند' : 'انتخاب ماه'}
               </Text>
@@ -377,7 +377,7 @@ export default function MonthlyScreen() {
                   </TouchableOpacity>
                 </View>
               )}
-            </BlubankCard>
+            </Card>
           </View>
         </Pressable>
       </Modal>
@@ -385,7 +385,7 @@ export default function MonthlyScreen() {
   );
 }
 
-function makeStyles(b: BlubankTheme) {
+function makeStyles(b: ShakhesTheme) {
   const c = b.colors;
   return StyleSheet.create({
     safe: { flex: 1, backgroundColor: c.background },
@@ -420,6 +420,7 @@ function makeStyles(b: BlubankTheme) {
       fontFamily: typography.regular,
     },
     picker: {
+      gap: 10,
       flexDirection: 'row-reverse',
       alignItems: 'center',
       justifyContent: 'space-between',

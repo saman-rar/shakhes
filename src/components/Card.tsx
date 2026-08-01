@@ -1,17 +1,12 @@
-import { useBlubank, useSoftShadow } from '@/theme/blubank';
+import { useTheme, useSoftShadow } from '@/theme/shakhes';
 import { View, ViewProps } from 'react-native';
 
 interface Props extends ViewProps {
   padded?: boolean;
 }
 
-export function BlubankCard({
-  children,
-  style,
-  padded = true,
-  ...rest
-}: Props) {
-  const b = useBlubank();
+export function Card({ children, style, padded = true, ...rest }: Props) {
+  const b = useTheme();
   const shadow = useSoftShadow();
   return (
     <View

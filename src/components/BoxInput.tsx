@@ -1,4 +1,4 @@
-import { typography, useBlubank } from '@/theme/blubank';
+import { typography, useTheme } from '@/theme/shakhes';
 import {
   StyleSheet,
   Text,
@@ -12,8 +12,8 @@ interface Props extends TextInputProps {
   error?: string;
 }
 
-export function BlubankBoxInput({ label, error, style, ...rest }: Props) {
-  const b = useBlubank();
+export function BoxInput({ label, error, style, ...rest }: Props) {
+  const b = useTheme();
   return (
     <View style={{ marginBottom: b.spacing.md }}>
       {label ? (

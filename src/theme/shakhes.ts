@@ -43,7 +43,7 @@ export const darkColors = {
 export type ColorScheme = 'light' | 'dark';
 export type ThemeColors = typeof lightColors | typeof darkColors;
 
-export const Blubank = {
+export const Shakhes = {
   colors: lightColors,
   radius: {
     input: 8,
@@ -61,18 +61,18 @@ export const Blubank = {
   },
 } as const;
 
-export function getBlubank(scheme: ColorScheme) {
+export function getTheme(scheme: ColorScheme) {
   return {
-    ...Blubank,
+    ...Shakhes,
     colors: scheme === 'dark' ? darkColors : lightColors,
   };
 }
 
-export type BlubankTheme = ReturnType<typeof getBlubank>;
+export type ShakhesTheme = ReturnType<typeof getTheme>;
 
-export function useBlubank(): BlubankTheme {
+export function useTheme(): ShakhesTheme {
   const scheme = (useColorScheme() ?? 'light') as ColorScheme;
-  return getBlubank(scheme === 'dark' ? 'dark' : 'light');
+  return getTheme(scheme === 'dark' ? 'dark' : 'light');
 }
 
 export const softShadow: ViewStyle = Platform.select<ViewStyle>({
@@ -113,7 +113,7 @@ export function getPaperTheme(scheme: ColorScheme): MD3Theme {
   const c = scheme === 'dark' ? darkColors : lightColors;
   return {
     ...base,
-    roundness: Blubank.radius.card,
+    roundness: Shakhes.radius.card,
     colors: {
       ...base.colors,
       primary: c.primary,

@@ -1,4 +1,4 @@
-import { getSoftShadow, typography, useBlubank } from '@/theme/blubank';
+import { getSoftShadow, typography, useTheme } from '@/theme/shakhes';
 import { Feather } from '@expo/vector-icons';
 import {
   StyleSheet,
@@ -29,7 +29,7 @@ const LABELS: Record<string, string> = {
 
 export function FloatingTabBar({ state, navigation }: any) {
   const insets = useSafeAreaInsets();
-  const b = useBlubank();
+  const b = useTheme();
   const scheme = useColorScheme() === 'dark' ? 'dark' : 'light';
   const shadow = getSoftShadow(scheme);
   const inactive = b.colors.textMuted;

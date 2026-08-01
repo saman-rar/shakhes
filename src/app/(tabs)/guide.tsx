@@ -1,6 +1,6 @@
-import { BlubankCard } from '@/components/BlubankCard';
+import { Card } from '@/components/Card';
 import { SectionHeader } from '@/components/SectionHeader';
-import { BlubankTheme, typography, useBlubank } from '@/theme/blubank';
+import { ShakhesTheme, typography, useTheme } from '@/theme/shakhes';
 import { Feather } from '@expo/vector-icons';
 import { useMemo } from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
@@ -43,7 +43,7 @@ const FORMULAS = [
 ];
 
 export default function GuideScreen() {
-  const b = useBlubank();
+  const b = useTheme();
   const styles = useMemo(() => makeStyles(b), [b]);
 
   return (
@@ -54,7 +54,7 @@ export default function GuideScreen() {
       >
         <SectionHeader title='راهنمای منطق محاسبات' />
         {FORMULAS.map((f, i) => (
-          <BlubankCard key={i} style={styles.card}>
+          <Card key={i} style={styles.card}>
             <View style={styles.head}>
               <View style={styles.iconWrap}>
                 <Feather
@@ -76,14 +76,14 @@ export default function GuideScreen() {
               <Feather name='code' size={11} color={b.colors.textMuted} />
               <Text style={styles.fn}>lib/scoring.ts → {f.fn}</Text>
             </View>
-          </BlubankCard>
+          </Card>
         ))}
       </ScrollView>
     </SafeAreaView>
   );
 }
 
-function makeStyles(b: BlubankTheme) {
+function makeStyles(b: ShakhesTheme) {
   const c = b.colors;
   return StyleSheet.create({
     safe: { flex: 1, backgroundColor: c.background },

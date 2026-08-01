@@ -1,5 +1,5 @@
-import { BlubankCard } from '@/components/BlubankCard';
-import { BlubankSelect } from '@/components/BlubankSelect';
+import { Card } from '@/components/Card';
+import { Select } from '@/components/Select';
 import { FormDateField } from '@/components/FormDateField';
 import { FormField } from '@/components/FormField';
 import { SectionHeader } from '@/components/SectionHeader';
@@ -12,7 +12,7 @@ import {
 } from '@/db/repositories';
 import { Correspondence, Referral } from '@/db/types';
 import { CorrespondenceForm, correspondenceSchema } from '@/schemas';
-import { BlubankTheme, typography, useBlubank } from '@/theme/blubank';
+import { ShakhesTheme, typography, useTheme } from '@/theme/shakhes';
 import { Feather } from '@expo/vector-icons';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as DocumentPicker from 'expo-document-picker';
@@ -33,7 +33,7 @@ const STATUSES = [
 ];
 
 export default function CorrespondenceScreen() {
-  const b = useBlubank();
+  const b = useTheme();
   const styles = useMemo(() => makeStyles(b), [b]);
 
   const { employeeOptions, getEmployeeName } = useEmployees();
@@ -128,20 +128,20 @@ export default function CorrespondenceScreen() {
         showsVerticalScrollIndicator={false}
       >
         <SectionHeader title='ثبت نامه و مستندات' />
-        <BlubankCard>
-          <BlubankSelect
+        <Card>
+          <Select
             control={control}
             name='correspondenceType'
             label='نوع مکاتبه'
             options={TYPES}
           />
-          <BlubankSelect
+          <Select
             control={control}
             name='employee'
             label='کارمند'
             options={employeeOptions}
           />
-          <BlubankSelect
+          <Select
             control={control}
             name='relatedReferral'
             label='ارجاع مرتبط (اختیاری)'
@@ -155,7 +155,7 @@ export default function CorrespondenceScreen() {
             label='فرستنده / گیرنده'
           />
           <FormDateField control={control} name='date' label='تاریخ' />
-          <BlubankSelect
+          <Select
             control={control}
             name='status'
             label='وضعیت'
@@ -209,7 +209,7 @@ export default function CorrespondenceScreen() {
             <Feather name='mail' size={18} color='#FFF' />
             <Text style={styles.primaryBtnText}>ثبت نامه و مستندات</Text>
           </Pressable>
-        </BlubankCard>
+        </Card>
 
         <SectionHeader title='آخرین مکاتبات' />
         <View style={styles.list}>
@@ -217,7 +217,7 @@ export default function CorrespondenceScreen() {
             <Text style={styles.empty}>هنوز نامه‌ای ثبت نشده است</Text>
           )}
           {letters.map((l) => (
-            <BlubankCard key={l.id} style={styles.rowCard}>
+            <Card key={l.id} style={styles.rowCard}>
               <View style={styles.rowInfo}>
                 <Text style={styles.rowTitle}>{l.subject}</Text>
                 <Text style={styles.rowMeta}>
@@ -237,7 +237,7 @@ export default function CorrespondenceScreen() {
               <Pressable onPress={() => remove(l.id)} hitSlop={8}>
                 <Feather name='trash-2' size={15} color={b.colors.danger} />
               </Pressable>
-            </BlubankCard>
+            </Card>
           ))}
         </View>
       </ScrollView>
@@ -245,7 +245,7 @@ export default function CorrespondenceScreen() {
   );
 }
 
-function makeStyles(b: BlubankTheme) {
+function makeStyles(b: ShakhesTheme) {
   const c = b.colors;
   return StyleSheet.create({
     safe: { flex: 1, backgroundColor: c.background },

@@ -1,6 +1,6 @@
 import { Control, Controller, FieldValues, Path } from 'react-hook-form';
 import { TextInputProps } from 'react-native';
-import { BlubankBoxInput } from './BlubankBoxInput';
+import { BoxInput } from './BoxInput';
 
 interface Props<T extends FieldValues> extends Omit<
   TextInputProps,
@@ -22,7 +22,7 @@ export function FormField<T extends FieldValues>({
       control={control}
       name={name}
       render={({ field: { onChange, value }, fieldState: { error } }) => (
-        <BlubankBoxInput
+        <BoxInput
           label={label}
           value={value}
           onChangeText={onChange}

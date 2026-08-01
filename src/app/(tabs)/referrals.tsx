@@ -1,5 +1,5 @@
-import { BlubankCard } from '@/components/BlubankCard';
-import { BlubankSelect } from '@/components/BlubankSelect';
+import { Card } from '@/components/Card';
+import { Select } from '@/components/Select';
 import { ControlledScoreInput } from '@/components/ControlledScoreInput';
 import { FormDateField } from '@/components/FormDateField';
 import { FormField } from '@/components/FormField';
@@ -14,7 +14,7 @@ import { Referral } from '@/db/types';
 import { toFa } from '@/lib/jalali';
 import { technicalScore, totalWeight, weightedScore } from '@/lib/scoring';
 import { ReferralForm, referralSchema } from '@/schemas';
-import { BlubankTheme, typography, useBlubank } from '@/theme/blubank';
+import { ShakhesTheme, typography, useTheme } from '@/theme/shakhes';
 import { Feather } from '@expo/vector-icons';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useFocusEffect } from 'expo-router';
@@ -59,7 +59,7 @@ const STATUSES = [
 ];
 
 export default function ReferralsScreen() {
-  const b = useBlubank();
+  const b = useTheme();
   const styles = useMemo(() => makeStyles(b), [b]);
 
   const { employeeOptions, getEmployeeName } = useEmployees();
@@ -146,8 +146,8 @@ export default function ReferralsScreen() {
         showsVerticalScrollIndicator={false}
       >
         <SectionHeader title='ایجاد ارجاع' />
-        <BlubankCard>
-          <BlubankSelect
+        <Card>
+          <Select
             control={control}
             name='employee'
             label='کارمند'
@@ -159,19 +159,14 @@ export default function ReferralsScreen() {
             label='شناسه نامه / ارجاع'
           />
           <FormField control={control} name='title' label='عنوان ارجاع' />
-          <BlubankSelect
-            control={control}
-            name='type'
-            label='نوع'
-            options={TYPES}
-          />
-          <BlubankSelect
+          <Select control={control} name='type' label='نوع' options={TYPES} />
+          <Select
             control={control}
             name='priority'
             label='اولویت'
             options={PRIORITIES}
           />
-          <BlubankSelect
+          <Select
             control={control}
             name='status'
             label='وضعیت'
@@ -188,10 +183,10 @@ export default function ReferralsScreen() {
             name='returnDate'
             label='تاریخ بازگشت'
           />
-        </BlubankCard>
+        </Card>
 
         <SectionHeader title='ارزیابی ارجاع' />
-        <BlubankCard>
+        <Card>
           <ControlledScoreInput
             control={control}
             name='effectiveDelay'
@@ -272,11 +267,11 @@ export default function ReferralsScreen() {
               </Text>
             </View>
           )}
-        </BlubankCard>
+        </Card>
 
         <SectionHeader title='آخرین ارجاع‌ها' />
         {referrals.map((r) => (
-          <BlubankCard key={r.id} style={styles.rowCard}>
+          <Card key={r.id} style={styles.rowCard}>
             <View style={styles.rowRight}>
               <View style={{ flex: 1 }}>
                 <Text style={styles.rowTitle}>{r.title}</Text>
@@ -294,14 +289,14 @@ export default function ReferralsScreen() {
                 <Feather name='trash-2' size={16} color={b.colors.danger} />
               </Pressable>
             </View>
-          </BlubankCard>
+          </Card>
         ))}
       </ScrollView>
     </SafeAreaView>
   );
 }
 
-function makeStyles(b: BlubankTheme) {
+function makeStyles(b: ShakhesTheme) {
   const c = b.colors;
   return StyleSheet.create({
     safe: { flex: 1, backgroundColor: c.background },

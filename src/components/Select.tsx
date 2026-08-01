@@ -1,4 +1,4 @@
-import { typography, useBlubank } from '@/theme/blubank';
+import { typography, useTheme } from '@/theme/shakhes';
 import { Feather } from '@expo/vector-icons';
 import { useState } from 'react';
 import { Control, Controller, FieldValues, Path } from 'react-hook-form';
@@ -10,7 +10,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { BlubankCard } from './BlubankCard';
+import { Card } from './Card';
 
 interface Option {
   label: string;
@@ -24,13 +24,13 @@ interface Props<T extends FieldValues> {
   options: Option[];
 }
 
-export function BlubankSelect<T extends FieldValues>({
+export function Select<T extends FieldValues>({
   control,
   name,
   label,
   options,
 }: Props<T>) {
-  const b = useBlubank();
+  const b = useTheme();
   const [open, setOpen] = useState(false);
 
   const theme = {
@@ -113,7 +113,7 @@ export function BlubankSelect<T extends FieldValues>({
                 onPress={() => setOpen(false)}
               >
                 <View style={{ paddingBottom: b.spacing.xl }}>
-                  <BlubankCard padded={false} style={styles.sheetCard}>
+                  <Card padded={false} style={styles.sheetCard}>
                     <Text
                       style={[
                         styles.sheetTitle,
@@ -167,7 +167,7 @@ export function BlubankSelect<T extends FieldValues>({
                         </Text>
                       </TouchableOpacity>
                     ))}
-                  </BlubankCard>
+                  </Card>
                 </View>
               </Pressable>
             </Modal>

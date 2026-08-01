@@ -9,7 +9,7 @@ import {
   toFa,
   todayJalali,
 } from '@/lib/jalali';
-import { typography, useBlubank } from '@/theme/blubank';
+import { typography, useTheme } from '@/theme/shakhes';
 import { Feather } from '@expo/vector-icons';
 import { useEffect, useMemo, useState } from 'react';
 import {
@@ -37,7 +37,7 @@ export function PersianDatePickerModal({
   onClose,
   onConfirm,
 }: Props) {
-  const b = useBlubank();
+  const b = useTheme();
   const today = useMemo(() => todayJalali(), []);
   const initial = useMemo(() => parseJalali(value) ?? today, [value, today]);
 
@@ -228,9 +228,9 @@ export function PersianDatePickerModal({
                       key={d}
                       style={[
                         styles.cell,
+                        { borderRadius: b.radius.pill },
                         isToday(d) && !isSelected(d)
                           ? {
-                              borderRadius: b.radius.pill,
                               borderWidth: 1,
                               borderColor: b.colors.primary,
                             }
@@ -355,12 +355,14 @@ const styles = StyleSheet.create({
   },
   grid: { flexDirection: 'row', flexWrap: 'wrap' },
   cell: {
+    borderWidth: 1,
+    borderColor: 'transparent',
     width: `${100 / 7}%`,
     aspectRatio: 1,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  cellText: { fontSize: 14 },
+  cellText: { fontSize: 14, paddingBottom: 10 },
   yearListContent: {
     flexDirection: 'row',
     flexWrap: 'wrap',

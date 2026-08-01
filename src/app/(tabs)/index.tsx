@@ -1,12 +1,12 @@
-import { BlubankCard } from '@/components/BlubankCard';
-import { BlubankSelect } from '@/components/BlubankSelect';
+import { Card } from '@/components/Card';
+import { Select } from '@/components/Select';
 import { FormDateField } from '@/components/FormDateField';
 import { SectionHeader } from '@/components/SectionHeader';
 import { StatTile } from '@/components/StatTile';
 import { useEmployees } from '@/context/EmployeesContext';
 import { toFa } from '@/lib/jalali';
 import { dashboardSchema, DashboardForm } from '@/schemas';
-import { typography, useBlubank } from '@/theme/blubank';
+import { typography, useTheme } from '@/theme/shakhes';
 import { Feather } from '@expo/vector-icons';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
@@ -15,7 +15,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function DashboardScreen() {
   const { employeeOptions, getEmployeeName } = useEmployees();
-  const b = useBlubank();
+  const b = useTheme();
   const c = b.colors;
 
   const { control, handleSubmit, reset } = useForm<DashboardForm>({
@@ -47,7 +47,7 @@ export default function DashboardScreen() {
             { marginBottom: b.spacing.md, paddingTop: 20 },
           ]}
         >
-          <BlubankSelect
+          <Select
             control={control}
             name='employee'
             label='کارمند'
@@ -73,7 +73,7 @@ export default function DashboardScreen() {
         </Pressable>
 
         <SectionHeader title='شاخص‌های کلی' />
-        <BlubankCard style={styles.container}>
+        <Card style={styles.container}>
           <StatTile
             style={styles.item}
             icon='send'
@@ -101,11 +101,11 @@ export default function DashboardScreen() {
             label='پوشش ارزیابی'
             value='۷۹٪'
           />
-        </BlubankCard>
+        </Card>
 
         <View style={styles.halfRow}>
           <View style={styles.halfCard}>
-            <BlubankCard style={styles.tilePadding}>
+            <Card style={styles.tilePadding}>
               <View style={styles.centerCol}>
                 <Text
                   style={{
@@ -125,10 +125,10 @@ export default function DashboardScreen() {
                   {toFa(88)}
                 </Text>
               </View>
-            </BlubankCard>
+            </Card>
           </View>
           <View style={styles.halfCard}>
-            <BlubankCard style={styles.tilePadding}>
+            <Card style={styles.tilePadding}>
               <View style={styles.centerCol}>
                 <Text
                   style={{
@@ -148,12 +148,12 @@ export default function DashboardScreen() {
                   {toFa(91)}
                 </Text>
               </View>
-            </BlubankCard>
+            </Card>
           </View>
         </View>
 
         <View style={styles.rowTwo}>
-          <BlubankCard style={styles.rowTwoCard}>
+          <Card style={styles.rowTwoCard}>
             <View style={styles.centerCol}>
               <Text
                 style={{
@@ -173,8 +173,8 @@ export default function DashboardScreen() {
                 {toFa(84)}
               </Text>
             </View>
-          </BlubankCard>
-          <BlubankCard style={styles.rowTwoCard}>
+          </Card>
+          <Card style={styles.rowTwoCard}>
             <View style={styles.centerCol}>
               <Text
                 style={{
@@ -194,11 +194,11 @@ export default function DashboardScreen() {
                 {toFa(87)}
               </Text>
             </View>
-          </BlubankCard>
+          </Card>
         </View>
 
         <View style={styles.thirdRow}>
-          <BlubankCard style={styles.thirdCard}>
+          <Card style={styles.thirdCard}>
             <View style={styles.centerCol}>
               <View style={[styles.badge, { backgroundColor: c.primarySoft }]}>
                 <Feather name='award' size={18} color={c.primary} />
@@ -219,12 +219,12 @@ export default function DashboardScreen() {
                   { color: c.primary, fontFamily: typography.bold },
                 ]}
               >
-                دوم
+                نیازمند بهبود
               </Text>
             </View>
-          </BlubankCard>
+          </Card>
 
-          <BlubankCard style={styles.thirdCard}>
+          <Card style={styles.thirdCard}>
             <View style={styles.centerCol}>
               <Text
                 style={{
@@ -247,14 +247,14 @@ export default function DashboardScreen() {
                 style={{
                   color: c.primary,
                   fontFamily: typography.bold,
-                  fontSize: 26,
+                  fontSize: 22,
                   marginTop: 4,
                 }}
               >
                 {toFa(85)}٪
               </Text>
             </View>
-          </BlubankCard>
+          </Card>
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -303,7 +303,7 @@ const styles = StyleSheet.create({
   thirdRow: { flexDirection: 'row', gap: 12, marginTop: 12 },
   thirdCard: { flex: 1, alignItems: 'center' },
   centerCol: { alignItems: 'center', justifyContent: 'center' },
-  big: { fontSize: 22, marginTop: 4 },
+  big: { fontSize: 18, marginTop: 4 },
   badge: {
     width: 36,
     height: 36,

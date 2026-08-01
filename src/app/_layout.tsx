@@ -1,7 +1,8 @@
+import { SplashLoading } from '@/components/SplashLoading';
 import { DatabaseProvider } from '@/context/DatabaseContext';
 import { EmployeesProvider } from '@/context/EmployeesContext';
 import { useVazirFonts } from '@/hooks/use-vazir-fonts';
-import { useBlubank } from '@/theme/blubank';
+import { useTheme } from '@/theme/shakhes';
 import { Stack } from 'expo-router/stack';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
@@ -17,7 +18,7 @@ export const unstable_settings = {
 };
 
 function StackRoot() {
-  const b = useBlubank();
+  const b = useTheme();
   const scheme = useColorScheme();
   return (
     <View style={[styles.flex, { backgroundColor: b.colors.background }]}>
@@ -41,7 +42,7 @@ export default function RootLayout() {
     }
   }, [fontsLoaded, fontError]);
 
-  if (!fontsLoaded && !fontError) return null;
+  if (!fontsLoaded && !fontError) return <SplashLoading />;
 
   return (
     <GestureHandlerRootView style={styles.flex}>

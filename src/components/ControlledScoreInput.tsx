@@ -1,7 +1,7 @@
-import { typography, useBlubank } from '@/theme/blubank';
+import { typography, useTheme } from '@/theme/shakhes';
 import { Control, Controller, FieldValues, Path } from 'react-hook-form';
 import { Text, View } from 'react-native';
-import { BlubankBoxInput } from './BlubankBoxInput';
+import { BoxInput } from './BoxInput';
 
 interface Props<T extends FieldValues> {
   control: Control<T>;
@@ -16,7 +16,7 @@ export function ControlledScoreInput<T extends FieldValues>({
   label,
   maxLimit,
 }: Props<T>) {
-  const b = useBlubank();
+  const b = useTheme();
   return (
     <Controller
       control={control}
@@ -33,7 +33,7 @@ export function ControlledScoreInput<T extends FieldValues>({
         };
         return (
           <View style={{ flex: 1, minWidth: '46%' }}>
-            <BlubankBoxInput
+            <BoxInput
               label={label}
               value={value === undefined || value === '' ? '' : String(value)}
               onChangeText={handleChange}

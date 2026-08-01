@@ -1,9 +1,9 @@
-import { BlubankBoxInput } from '@/components/BlubankBoxInput';
-import { BlubankCard } from '@/components/BlubankCard';
-import { BlubankSelect } from '@/components/BlubankSelect';
+import { BoxInput } from '@/components/BoxInput';
+import { Card } from '@/components/Card';
+import { Select } from '@/components/Select';
 import { SectionHeader } from '@/components/SectionHeader';
 import { useEmployees } from '@/context/EmployeesContext';
-import { typography, useBlubank } from '@/theme/blubank';
+import { typography, useTheme } from '@/theme/shakhes';
 import { Feather } from '@expo/vector-icons';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Controller, useForm } from 'react-hook-form';
@@ -27,7 +27,7 @@ const schema = z.object({
 type FormValues = z.infer<typeof schema>;
 
 export default function EmployeesScreen() {
-  const b = useBlubank();
+  const b = useTheme();
   const c = b.colors;
   const { employees, addEmployee, removeEmployee } = useEmployees();
 
@@ -55,12 +55,12 @@ export default function EmployeesScreen() {
         showsVerticalScrollIndicator={false}
       >
         <SectionHeader title='ثبت کارمند' />
-        <BlubankCard>
+        <Card>
           <Controller
             control={control}
             name='fullName'
             render={({ field, fieldState }) => (
-              <BlubankBoxInput
+              <BoxInput
                 label='نام و نام خانوادگی'
                 value={field.value}
                 onChangeText={field.onChange}
@@ -72,7 +72,7 @@ export default function EmployeesScreen() {
             control={control}
             name='personnelCode'
             render={({ field, fieldState }) => (
-              <BlubankBoxInput
+              <BoxInput
                 label='کد پرسنلی'
                 value={field.value}
                 onChangeText={field.onChange}
@@ -81,14 +81,12 @@ export default function EmployeesScreen() {
               />
             )}
           />
-          <BlubankSelect
+          <Select
             control={control}
             name='department'
             label='واحد'
             options={[
-              { label: 'مدیریت', value: 'مدیریت' },
-              { label: 'عملیات', value: 'عملیات' },
-              { label: 'پشتیبانی', value: 'پشتیبانی' },
+              { label: 'معاونت قراردادها', value: 'contracts_management' },
             ]}
           />
           <Pressable
@@ -104,13 +102,13 @@ export default function EmployeesScreen() {
             <Feather name='user-plus' size={18} color='#FFF' />
             <Text style={styles.primaryText}>ثبت کارمند</Text>
           </Pressable>
-        </BlubankCard>
+        </Card>
 
         <SectionHeader title='کارکنان ثبت‌شده' />
         <View style={{ gap: b.spacing.sm, marginBottom: 24 }}>
           {employees && employees.length > 0 ? (
             employees.map((emp) => (
-              <BlubankCard key={emp.id} padded={false}>
+              <Card key={emp.id} padded={false}>
                 <View
                   style={[
                     styles.row,
@@ -156,7 +154,7 @@ export default function EmployeesScreen() {
                     <Feather name='trash-2' size={18} color={c.danger} />
                   </TouchableOpacity>
                 </View>
-              </BlubankCard>
+              </Card>
             ))
           ) : (
             <View style={styles.noEmployee}>

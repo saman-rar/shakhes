@@ -1,4 +1,4 @@
-import { typography, useBlubank } from '@/theme/blubank';
+import { typography, useTheme } from '@/theme/shakhes';
 import { StyleProp, StyleSheet, Text, TextStyle } from 'react-native';
 
 export function SectionHeader({
@@ -10,7 +10,7 @@ export function SectionHeader({
   style?: StyleProp<TextStyle>;
   variant?: string;
 }) {
-  const b = useBlubank();
+  const b = useTheme();
   return (
     <Text
       style={[
