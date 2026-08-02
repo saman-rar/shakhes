@@ -1,56 +1,88 @@
-# Welcome to your Expo app 👋
+<p align="center">
+  <br>
+  <!-- لطفاً فایل لوگوی برنامه خود را با نام logo.png در پوشه assets پروژه قرار دهید -->
+  <img src="assets/images/shakhes.png" alt="لوگوی برنامه شاخص" width="150" style="border-radius: 20px;">
+  <br>
+  <h1 align="center">شاخص</h1>
+  <h3 align="center">نرم‌افزار ارزیابی عملکرد اداره قراردادهای بانک سپه</h3>
+  <br>
+</p>
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+<div align="center">
 
-## Get started
+![Platform](https://img.shields.io/badge/Platform-Android%20%7C%20iOS-green)
+![React Native](https://img.shields.io/badge/Framework-React%20Native-blue)
+![License](https://img.shields.io/badge/License-Proprietary-orange)
 
-1. Install dependencies
+</div>
 
-   ```bash
-   npm install
-   ```
+---
 
-2. Start the app
+## 📝 معرفی برنامه
+نرم‌افزار **شاخص**، یک پلتفرم جامع و مدرن برای مدیریت، ثبت و ارزیابی عملکرد قراردادهای بانک سپه است. این برنامه با بهره‌گیری از طراحی مینیمال و کاربرپسند (الهام‌گرفته از سبک **Blubank**)، به مدیران و کارشناسان کمک می‌کند تا فرآیندهای ارزیابی کارکنان، پیگیری مکاتبات و ثبت ارجاعات را به ساده‌ترین و دقیق‌ترین شکل ممکن انجام دهند.
 
-   ```bash
-   npx expo start
-   ```
+---
 
-In the output, you'll find options to open the app in a
+## ✨ امکانات و ماژول‌های برنامه
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+### ۱. داشبورد مدیریتی (Dashboard)
+*   نمایش خلاصه وضعیت عملکرد در یک نگاه.
+*   نمایش تعداد کل **ارجاع‌ها**، **پرونده‌های مختومه** و **موارد ارزیابی شده**.
+*   درصد پوشش ارزیابی و میانگین شاخص‌های کیفی (میانگین کیفیت، دانش، چابکی و نوآوری).
+*   نمایش امتیاز ماهانه (از ۱۵۵) و درصد نهایی عملکرد به همراه رتبه‌بندی وضعیت کاربر.
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+### ۲. مدیریت کارکنان (Employees)
+*   ثبت اطلاعات پرسنلی شامل **نام و نام خانوادگی** و **کد پرسنلی**.
+*   انتخاب **معاونت/واحد** مربوطه.
+*   نمایش لیست پرسنل ثبت‌شده همراه با قابلیت **حذف** پرسنل از سیستم.
 
-## Get a fresh project
+### ۳. ثبت و ارزیابی ارجاع‌ها (Referrals)
+*   **ثبت ارجاع:** شامل شناسه نامه، عنوان کار ارجاعی، تعیین نوع و اولویت (عادی، فوری)، تاریخ ارجاع، تاریخ مهلت و تاریخ بازگشت (با استفاده از **تقویم شمسی**).
+*   **ارزیابی خروجی:** فرمت دقیق برای ثبت تأخیر مؤثر، کیفیت، دانش، نوآوری، تعداد دفعات اصلاح، وضعیت فوق‌برنامه (سوئیچ) و بازخورد نهایی.
+*   محاسبه خودکار امتیاز بر اساس الگوریتم‌های تعریف شده در فرمول‌های ارزیابی.
 
-When you're ready, run:
+### ۴. ثبت و سنجش مکاتبات (Correspondence)
+*   ثبت انواع مکاتبات (وارده / صادره) با قابلیت اتصال به یک ارجاع مرتبط.
+*   امکان بارگذاری فایل‌های ضمیمه در قالب **ZIP، RAR و تصویر**.
+*   قابلیت **ثبت مستقیم عکس با دوربین** گوشی.
+*   درج توضیحات و نتیجه اقدام انجام‌شده برای هر مکاتبه.
+
+### ۵. ارزیابی ماهانه عملکرد (Monthly Evaluation)
+*   ارزیابی کارکنان بر اساس **۸ شاخص کلیدی** با سقف امتیاز کاملاً مشخص و هوشمند:
+    *   **دقت:** ۳۰۰ امتیاز
+    *   **دانش:** ۴۰۰ امتیاز
+    *   **نشر دانش:** ۲۵۰ امتیاز
+    *   **همگرایی:** ۲۰۰ امتیاز
+    *   **مشارکت‌پذیری:** ۱۵۰ امتیاز
+    *   **فوق برنامه:** ۱۵۰ امتیاز
+    *   **نظام سازمانی:** ۱۰۰ امتیاز
+    *   **نوآوری:** ۱۰۰ امتیاز
+*   *نکته مهم:* سیستم به‌صورت هوشمند از ورود اعداد بیشتر از سقف مجاز برای هر فیلد جلوگیری می‌کند.
+
+### ۶. راهنمای فرمول‌ها (Guide & Logic)
+بخش راهنما شامل فرمول‌های محاسباتی دقیق ارزیابی است:
+*   `وزن کل = ضریب اهمیت × ضریب پیچیدگی`
+*   `امتیاز فنی = (کیفیت × %۳۷.۵) + (دانش × %۳۷.۵) + (چابکی × %۱۲.۵) + (نوآوری × %۱۲.۵)`
+*   `امتیاز موزون = امتیاز فنی × وزن کل`
+*   `درصد عملکرد = (جمع امتیازات ماهانه ÷ ۱۵۵) × ۱۰۰`
+
+---
+
+## 🛠 تکنولوژی‌های به‌کاررفته
+*   **React Native (Expo)** - توسعه کراس‌پلتفرم
+*   **React Navigation** - مدیریت نویگیشن (Bottom Tabs)
+*   **React Hook Form + Zod** - مدیریت هوشمند فرم‌ها و اعتبارسنجی (Validation)
+*   **React Native Paper** - کامپوننت‌های مدرن UI
+*   **React Native Persian Date Picker** - تقویم شمسی زیبا و یکپارچه
+*   **React Native Vector Icons** - آیکون‌های مدرن و مینیمال
+
+---
+
+## 🚀 نصب و اجرای پروژه
+
+پروژه را کلون کنید و وابستگی‌ها را نصب نمایید:
 
 ```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-### Other setup steps
-
-- To set up ESLint for linting, run `npx expo lint`, or follow our guide on ["Using ESLint and Prettier"](https://docs.expo.dev/guides/using-eslint/)
-- If you'd like to set up unit testing, follow our guide on ["Unit Testing with Jest"](https://docs.expo.dev/develop/unit-testing/)
-- Learn more about the TypeScript setup in this template in our guide on ["Using TypeScript"](https://docs.expo.dev/guides/typescript/)
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+git clone https://github.com/your-username/shaakhes-app.git
+cd shaakhes-app
+npm install
