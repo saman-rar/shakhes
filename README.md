@@ -1,7 +1,6 @@
 <p align="center">
   <br>
-  <!-- لطفاً فایل لوگوی برنامه خود را با نام logo.png در پوشه assets پروژه قرار دهید -->
-  <img src="assets/images/shakhes.png" alt="لوگوی برنامه شاخص" width="150" style="border-radius: 20px;">
+  <img src="assets/images/shakhes.png" alt="لوگوی برنامه شاخص" width="150" style="border-radius: 200px;">
   <br>
   <h1 align="center">شاخص</h1>
   <h3 align="center">نرم‌افزار ارزیابی عملکرد اداره قراردادهای بانک سپه</h3>
@@ -10,7 +9,7 @@
 
 <div align="center">
 
-![Platform](https://img.shields.io/badge/Platform-Android%20%7C%20iOS-green)
+![Platform](https://img.shields.io/badge/Platform-Android%20%7C%20Web-green)
 ![React Native](https://img.shields.io/badge/Framework-React%20Native-blue)
 ![License](https://img.shields.io/badge/License-Proprietary-orange)
 
@@ -19,7 +18,7 @@
 ---
 
 ## 📝 معرفی برنامه
-نرم‌افزار **شاخص**، یک پلتفرم جامع و مدرن برای مدیریت، ثبت و ارزیابی عملکرد قراردادهای بانک سپه است. این برنامه با بهره‌گیری از طراحی مینیمال و کاربرپسند (الهام‌گرفته از سبک **Blubank**)، به مدیران و کارشناسان کمک می‌کند تا فرآیندهای ارزیابی کارکنان، پیگیری مکاتبات و ثبت ارجاعات را به ساده‌ترین و دقیق‌ترین شکل ممکن انجام دهند.
+نرم‌افزار **شاخص**، یک پلتفرم جامع و مدرن برای مدیریت، ثبت و ارزیابی عملکرد قراردادهای بانک سپه است. این برنامه با بهره‌گیری از طراحی مینیمال و کاربرپسند، به مدیران و کارشناسان کمک می‌کند تا فرآیندهای ارزیابی کارکنان، پیگیری مکاتبات و ثبت ارجاعات را به ساده‌ترین و دقیق‌ترین شکل ممکن انجام دهند.
 
 ---
 
@@ -83,6 +82,6 @@
 پروژه را کلون کنید و وابستگی‌ها را نصب نمایید:
 
 ```bash
-git clone https://github.com/your-username/shaakhes-app.git
-cd shaakhes-app
+git clone https://github.com/saman-rar/shakhes
+cd shakhes
 npm install
