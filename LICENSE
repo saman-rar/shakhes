@@ -1,21 +1,27 @@
-The MIT License (MIT)
+# لایسنس نرم‌افزار شاخص (استفاده غیرتجاری)
 
-Copyright (c) 2015-present 650 Industries, Inc. (aka Expo)
+**کپی‌رایت © 2026 [سامان فرجی]**
+**تمامی حقوق محفوظ است.**
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+_______________________________________________________________________
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+**شرایط و ضوابط استفاده از این نرم‌افزار:**
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+**۱. مجوز مشاهده و کلون کردن (حق دسترسی)**
+شما مجاز هستید که این مخزن (Repository) را از طریق گیت‌هاب کلون (Clone) کنید، کدهای آن را مشاهده کنید و صرفاً برای **اهداف آموزشی، پژوهشی و مطالعه شخصی** از آن استفاده نمایید.
+
+**۲. ممنوعیت شدید استفاده تجاری (Commercial Use)**
+استفاده از این نرم‌افزار، کدهای منبع، یا هر بخشی از آن (چه به صورت مستقیم و چه به صورت مشتق‌شده) برای **منافع تجاری و درآمدزایی، به شدت ممنوع است.**
+مصادیق استفاده تجاری شامل موارد زیر است، اما محدود به آنها نیست:
+- فروش این نرم‌افزار به اشخاص یا سازمان‌های دیگر.
+- استفاده از کدهای این پروژه برای ساخت یک محصول تجاری.
+- ارائه این نرم‌افزار به عنوان یک سرویس درآمدزا (SaaS) به دیگران.
+- هرگونه بهره‌برداری مالی، مستقیم یا غیرمستقیم، از این کد.
+
+**۳. اصلاح و توزیع**
+شما مجاز به ایجاد تغییرات (Modification) یا فورک (Fork) کردن این پروژه هستید، اما **هرگونه انتشار (Distribution) نسخه تغییر‌یافته شما، باید صراحتاً این لایسنس (ممنوعیت استفاده تجاری) را حفظ کرده و نام صاحب امتیاز اصلی را ذکر کند.**
+
+**۴. عدم ضمانت**
+این نرم‌افزار "همان‌گونه که هست" ارائه می‌شود و هیچ نوع ضمانتی در مورد عملکرد، صحت و یا مناسب بودن آن برای هدف خاصی وجود ندارد.
+
+**توجه:** هرگونه تخلف از شرط شماره ۲، نقض قوانین کپی‌رایت و مالکیت فکری محسوب شده و پیگرد قانونی خواهد داشت.
