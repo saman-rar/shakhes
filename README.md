@@ -85,6 +85,7 @@
 git clone https://github.com/saman-rar/shakhes
 cd shakhes
 npm install
+```
 
 
 ## 📜 لایسنس و قوانین استفاده
