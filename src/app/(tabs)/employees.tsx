@@ -196,6 +196,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   noEmployeeTitle: {
-    fontSize: 18,
+    fontSize: 16,
   },
 });

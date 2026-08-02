@@ -17,7 +17,7 @@ export default function TabsLayout() {
         name='correspondence'
         options={{ title: 'ثبت و سنجش مکاتبات' }}
       />
-      <Tabs.Screen name='monthly' options={{ title: 'ارزیابی ماهانه' }} />
+      <Tabs.Screen name='monthly' options={{ title: 'ارزیابی' }} />
       <Tabs.Screen name='guide' options={{ title: 'راهنما' }} />
     </Tabs>
   );

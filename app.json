@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "shakhes",
+    "name": "شاخص",
     "slug": "shakhes",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -17,7 +17,8 @@
         "backgroundImage": "./assets/images/shakhes.png",
         "monochromeImage": "./assets/images/shakhes.png"
       },
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "package": "com.fsfardar.shakhes"
     },
     "web": {
       "output": "static",
@@ -28,9 +29,9 @@
       [
         "expo-splash-screen",
         {
-          "backgroundColor": "#208AEF",
+          "backgroundColor": "#F28B0C",
           "image": "./assets/images/sepah-logo.png",
-          "imageWidth": 76
+          "imageWidth": 300
         }
       ],
       "expo-sqlite"
@@ -38,6 +39,12 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "7809bcf3-0138-4b0c-bd58-0b25fffb288f"
+      }
     }
   }
 }

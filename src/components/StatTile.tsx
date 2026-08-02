@@ -56,7 +56,7 @@ export function StatTile({
         style={{
           color: b.colors.text,
           fontFamily: typography.bold,
-          fontSize: 16,
+          fontSize: 12,
           marginTop: 2,
         }}
       >

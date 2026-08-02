@@ -23,7 +23,7 @@ const LABELS: Record<string, string> = {
   employees: 'کارکنان',
   referrals: 'ارجاع‌ها',
   correspondence: 'مکاتبات',
-  monthly: 'ارزیابی ماهانه',
+  monthly: 'ارزیابی',
   guide: 'راهنما',
 };
 

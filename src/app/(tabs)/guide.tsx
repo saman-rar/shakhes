@@ -11,34 +11,26 @@ const FORMULAS = [
     icon: 'layers',
     title: 'وزن کل',
     subtitle: 'Total Weight',
-    formula: 'Total Weight = Importance Coefficient × Complexity Coefficient',
     persian: 'وزن کل = ضریب اهمیت × ضریب پیچیدگی',
-    fn: 'totalWeight({ importance, complexity })',
   },
   {
     icon: 'sliders',
     title: 'امتیاز فنی',
     subtitle: 'Technical Score',
-    formula:
-      'Technical Score = (Quality×37.5%) + (Knowledge×37.5%) + (Agility×12.5%) + (Innovation×12.5%)',
-    persian: 'امتیاز فنی = کیفیت و دانش ۴۵٪ + چابکی و نوآوری سهم کمتر',
-    fn: 'technicalScore({ quality, knowledge, agility, innovation })',
+    persian:
+      'امتیاز فنی = کیفیت ۳۷.۵% + دانش ۳۷.۵% + چابکی و نوآوری سهم کمتر ۱۲.۵%',
   },
   {
     icon: 'trending-up',
     title: 'امتیاز وزنی',
     subtitle: 'Weighted Score',
-    formula: 'Weighted Score = Technical Score × Total Weight',
     persian: 'امتیاز وزنی = امتیاز فنی × وزن کل',
-    fn: 'weightedScore(technical, weight)',
   },
   {
     icon: 'percent',
     title: 'درصد عملکرد',
     subtitle: 'Performance Percentage',
-    formula: 'Performance Percentage = (Σ Monthly Scores ÷ 155) × 100',
     persian: 'درصد عملکرد = (مجموع امتیاز ماهانه ÷ ۱۵۵) × ۱۰۰',
-    fn: 'performancePercentage(monthlyScores, 155)',
   },
 ];
 
@@ -69,12 +61,7 @@ export default function GuideScreen() {
               </View>
             </View>
             <View style={styles.formulaBox}>
-              <Text style={styles.formula}>{f.formula}</Text>
-            </View>
-            <Text style={styles.persian}>{f.persian}</Text>
-            <View style={styles.fnRow}>
-              <Feather name='code' size={11} color={b.colors.textMuted} />
-              <Text style={styles.fn}>lib/scoring.ts → {f.fn}</Text>
+              <Text style={styles.formula}>{f.persian}</Text>
             </View>
           </Card>
         ))}
@@ -120,16 +107,13 @@ function makeStyles(b: ShakhesTheme) {
       borderRadius: b.radius.input,
       padding: b.spacing.md,
       marginBottom: b.spacing.sm,
-    },
-    formula: { fontSize: 12, color: c.text, fontFamily: 'monospace' },
-    persian: {
-      fontSize: 12,
-      color: c.textSecondary,
       textAlign: 'right',
-      marginBottom: 6,
-      fontFamily: typography.regular,
     },
-    fnRow: { flexDirection: 'row', alignItems: 'center', gap: 4 },
-    fn: { fontSize: 11, color: c.textMuted, fontFamily: 'monospace' },
+    formula: {
+      fontSize: 12,
+      color: c.text,
+      fontFamily: 'monospace',
+      textAlign: 'right',
+    },
   });
 }

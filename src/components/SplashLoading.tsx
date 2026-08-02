@@ -1,6 +1,12 @@
 import { lightColors, typography } from '@/theme/shakhes';
 import { useEffect } from 'react';
-import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
+import {
+  ActivityIndicator,
+  Appearance,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import Animated, {
   Easing,
   useAnimatedStyle,
@@ -14,14 +20,14 @@ export function SplashLoading() {
 
   useEffect(() => {
     rotation.value = withRepeat(
-      withTiming(360, { duration: 2400, easing: Easing.linear }),
+      withTiming(360, { duration: 2400, easing: Easing.bounce }),
       -1,
       false,
     );
   }, [rotation]);
 
   const spin = useAnimatedStyle(() => ({
-    transform: [{ rotate: `${rotation.value}deg` }],
+    transform: [{ rotateY: `${rotation.value}deg` }],
   }));
 
   return (
@@ -60,7 +66,8 @@ const styles = StyleSheet.create({
     width: CIRCLE,
     height: CIRCLE,
     borderRadius: CIRCLE / 2,
-    backgroundColor: '#FFFFFF',
+    backgroundColor:
+      Appearance.getColorScheme() === 'light' ? '#FFFFFF' : '#030303',
     alignItems: 'center',
     justifyContent: 'center',
     shadowColor: '#000',
@@ -77,7 +84,7 @@ const styles = StyleSheet.create({
     marginTop: 32,
     fontSize: 16,
     lineHeight: 30,
-    color: '#FFFFFF',
+    color: Appearance.getColorScheme() === 'light' ? '#FFFFFF' : '#030303',
     textAlign: 'center',
     fontFamily: typography.bold,
   },
@@ -87,7 +94,11 @@ const styles = StyleSheet.create({
   subtitle: {
     marginTop: 14,
     fontSize: 13,
-    color: 'rgba(255,255,255,0.9)',
+    color:
+      Appearance.getColorScheme() === 'light'
+        ? 'rgba(255,255,255,0.9)'
+        : '#221e1e',
+
     textAlign: 'center',
     fontFamily: typography.regular,
   },

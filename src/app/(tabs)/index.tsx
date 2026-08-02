@@ -100,6 +100,7 @@ export default function DashboardScreen() {
             icon='percent'
             label='پوشش ارزیابی'
             value='۷۹٪'
+            tone='primary'
           />
         </Card>
 
@@ -300,7 +301,7 @@ const styles = StyleSheet.create({
   tilePadding: { paddingTop: 20 },
   rowTwo: { flexDirection: 'row', gap: 12, marginTop: 12 },
   rowTwoCard: { flex: 1, alignItems: 'center' },
-  thirdRow: { flexDirection: 'row', gap: 12, marginTop: 12 },
+  thirdRow: { flexDirection: 'row', gap: 12, marginTop: 12, marginBottom: 40 },
   thirdCard: { flex: 1, alignItems: 'center' },
   centerCol: { alignItems: 'center', justifyContent: 'center' },
   big: { fontSize: 18, marginTop: 4 },

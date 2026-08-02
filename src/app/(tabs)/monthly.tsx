@@ -390,7 +390,11 @@ function makeStyles(b: ShakhesTheme) {
   return StyleSheet.create({
     safe: { flex: 1, backgroundColor: c.background },
     scroll: { paddingHorizontal: b.spacing.lg, paddingBottom: 110 },
-    headerCard: { flexDirection: 'row-reverse', alignItems: 'center' },
+    headerCard: {
+      flexDirection: 'row-reverse',
+      alignItems: 'center',
+      marginTop: 15,
+    },
     avatar: {
       width: 46,
       height: 46,
